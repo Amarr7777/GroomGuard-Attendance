@@ -23,3 +23,8 @@ The Smart Attendance System is a revolutionary mobile application designed to st
 - **Maintains High Grooming Standards**: Encourages professionalism and discipline.
 - **Organized and Disciplined Environment**: Leads to a more organized educational environment.
 
+## Contributors
+
+- **Amar G Nath**
+- **Ashwin Joshy**
+- **Vishnu Swaroop P S**
