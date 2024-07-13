@@ -1,0 +1,440 @@
+{
+    "courses": [
+      {
+        "name": "Introduction to Computer Science",
+        "code": "CS101",
+        "numberOfStudents": 20,
+        "students": [
+          {
+            "name": "John Doe",
+            "rollNumber": "10001"
+          },
+          {
+            "name": "Jane Smith",
+            "rollNumber": "10002"
+          },
+          {
+            "name": "Alice Johnson",
+            "rollNumber": "10003"
+          },
+          {
+            "name": "Robert Brown",
+            "rollNumber": "10004"
+          },
+          {
+            "name": "Emily Davis",
+            "rollNumber": "10005"
+          },
+          {
+            "name": "Michael Wilson",
+            "rollNumber": "10006"
+          },
+          {
+            "name": "Sarah Miller",
+            "rollNumber": "10007"
+          },
+          {
+            "name": "David Moore",
+            "rollNumber": "10008"
+          },
+          {
+            "name": "Laura Taylor",
+            "rollNumber": "10009"
+          },
+          {
+            "name": "James Anderson",
+            "rollNumber": "10010"
+          },
+          {
+            "name": "Linda Thomas",
+            "rollNumber": "10011"
+          },
+          {
+            "name": "Kevin Jackson",
+            "rollNumber": "10012"
+          },
+          {
+            "name": "Rachel White",
+            "rollNumber": "10013"
+          },
+          {
+            "name": "Daniel Harris",
+            "rollNumber": "10014"
+          },
+          {
+            "name": "Sophia Martin",
+            "rollNumber": "10015"
+          },
+          {
+            "name": "Christopher Lee",
+            "rollNumber": "10016"
+          },
+          {
+            "name": "Jessica Walker",
+            "rollNumber": "10017"
+          },
+          {
+            "name": "Matthew Hall",
+            "rollNumber": "10018"
+          },
+          {
+            "name": "Olivia Allen",
+            "rollNumber": "10019"
+          },
+          {
+            "name": "Joshua Young",
+            "rollNumber": "10020"
+          }
+        ]
+      },
+      {
+        "name": "Data Structures and Algorithms",
+        "code": "CS102",
+        "numberOfStudents": 20,
+        "students": [
+          {
+            "name": "Aiden Turner",
+            "rollNumber": "20001"
+          },
+          {
+            "name": "Chloe Wilson",
+            "rollNumber": "20002"
+          },
+          {
+            "name": "Ethan Clark",
+            "rollNumber": "20003"
+          },
+          {
+            "name": "Sophia Lewis",
+            "rollNumber": "20004"
+          },
+          {
+            "name": "Liam Walker",
+            "rollNumber": "20005"
+          },
+          {
+            "name": "Mia Young",
+            "rollNumber": "20006"
+          },
+          {
+            "name": "Noah King",
+            "rollNumber": "20007"
+          },
+          {
+            "name": "Isabella Scott",
+            "rollNumber": "20008"
+          },
+          {
+            "name": "Logan Green",
+            "rollNumber": "20009"
+          },
+          {
+            "name": "Avery Adams",
+            "rollNumber": "20010"
+          },
+          {
+            "name": "Lucas Mitchell",
+            "rollNumber": "20011"
+          },
+          {
+            "name": "Grace Phillips",
+            "rollNumber": "20012"
+          },
+          {
+            "name": "Mason Evans",
+            "rollNumber": "20013"
+          },
+          {
+            "name": "Ella Parker",
+            "rollNumber": "20014"
+          },
+          {
+            "name": "Oliver Roberts",
+            "rollNumber": "20015"
+          },
+          {
+            "name": "Abigail Turner",
+            "rollNumber": "20016"
+          },
+          {
+            "name": "Henry Campbell",
+            "rollNumber": "20017"
+          },
+          {
+            "name": "Aubrey Carter",
+            "rollNumber": "20018"
+          },
+          {
+            "name": "James Allen",
+            "rollNumber": "20019"
+          },
+          {
+            "name": "Madison Richardson",
+            "rollNumber": "20020"
+          }
+        ]
+      },
+      {
+        "name": "Software Engineering",
+        "code": "CS103",
+        "numberOfStudents": 20,
+        "students": [
+          {
+            "name": "Emma Harris",
+            "rollNumber": "30001"
+          },
+          {
+            "name": "Liam Perez",
+            "rollNumber": "30002"
+          },
+          {
+            "name": "Olivia Thomas",
+            "rollNumber": "30003"
+          },
+          {
+            "name": "Lucas Collins",
+            "rollNumber": "30004"
+          },
+          {
+            "name": "Sophia Martinez",
+            "rollNumber": "30005"
+          },
+          {
+            "name": "Mason Thompson",
+            "rollNumber": "30006"
+          },
+          {
+            "name": "Isabella Walker",
+            "rollNumber": "30007"
+          },
+          {
+            "name": "Ethan Young",
+            "rollNumber": "30008"
+          },
+          {
+            "name": "Mia Hernandez",
+            "rollNumber": "30009"
+          },
+          {
+            "name": "Aiden Anderson",
+            "rollNumber": "30010"
+          },
+          {
+            "name": "Logan Martinez",
+            "rollNumber": "30011"
+          },
+          {
+            "name": "Chloe Carter",
+            "rollNumber": "30012"
+          },
+          {
+            "name": "Noah King",
+            "rollNumber": "30013"
+          },
+          {
+            "name": "Aubrey Clark",
+            "rollNumber": "30014"
+          },
+          {
+            "name": "Emma White",
+            "rollNumber": "30015"
+          },
+          {
+            "name": "Henry Hall",
+            "rollNumber": "30016"
+          },
+          {
+            "name": "Ella Lewis",
+            "rollNumber": "30017"
+          },
+          {
+            "name": "Oliver Allen",
+            "rollNumber": "30018"
+          },
+          {
+            "name": "Grace Walker",
+            "rollNumber": "30019"
+          },
+          {
+            "name": "James Green",
+            "rollNumber": "30020"
+          }
+        ]
+      },
+      {
+        "name": "Database Management Systems",
+        "code": "CS104",
+        "numberOfStudents": 20,
+        "students": [
+          {
+            "name": "John Doe",
+            "rollNumber": "40001"
+          },
+          {
+            "name": "Jane Smith",
+            "rollNumber": "40002"
+          },
+          {
+            "name": "Alice Johnson",
+            "rollNumber": "40003"
+          },
+          {
+            "name": "Robert Brown",
+            "rollNumber": "40004"
+          },
+          {
+            "name": "Emily Davis",
+            "rollNumber": "40005"
+          },
+          {
+            "name": "Michael Wilson",
+            "rollNumber": "40006"
+          },
+          {
+            "name": "Sarah Miller",
+            "rollNumber": "40007"
+          },
+          {
+            "name": "David Moore",
+            "rollNumber": "40008"
+          },
+          {
+            "name": "Laura Taylor",
+            "rollNumber": "40009"
+          },
+          {
+            "name": "James Anderson",
+            "rollNumber": "40010"
+          },
+          {
+            "name": "Linda Thomas",
+            "rollNumber": "40011"
+          },
+          {
+            "name": "Kevin Jackson",
+            "rollNumber": "40012"
+          },
+          {
+            "name": "Rachel White",
+            "rollNumber": "40013"
+          },
+          {
+            "name": "Daniel Harris",
+            "rollNumber": "40014"
+          },
+          {
+            "name": "Sophia Martin",
+            "rollNumber": "40015"
+          },
+          {
+            "name": "Christopher Lee",
+            "rollNumber": "40016"
+          },
+          {
+            "name": "Jessica Walker",
+            "rollNumber": "40017"
+          },
+          {
+            "name": "Matthew Hall",
+            "rollNumber": "40018"
+          },
+          {
+            "name": "Olivia Allen",
+            "rollNumber": "40019"
+          },
+          {
+            "name": "Joshua Young",
+            "rollNumber": "40020"
+          }
+        ]
+      },
+      {
+        "name": "Operating Systems",
+        "code": "CS105",
+        "numberOfStudents": 20,
+        "students": [
+          {
+            "name": "Aiden Turner",
+            "rollNumber": "50001"
+          },
+          {
+            "name": "Chloe Wilson",
+            "rollNumber": "50002"
+          },
+          {
+            "name": "Ethan Clark",
+            "rollNumber": "50003"
+          },
+          {
+            "name": "Sophia Lewis",
+            "rollNumber": "50004"
+          },
+          {
+            "name": "Liam Walker",
+            "rollNumber": "50005"
+          },
+          {
+            "name": "Mia Young",
+            "rollNumber": "50006"
+          },
+          {
+            "name": "Noah King",
+            "rollNumber": "50007"
+          },
+          {
+            "name": "Isabella Scott",
+            "rollNumber": "50008"
+          },
+          {
+            "name": "Logan Green",
+            "rollNumber": "50009"
+          },
+          {
+            "name": "Avery Adams",
+            "rollNumber": "50010"
+          },
+          {
+            "name": "Lucas Mitchell",
+            "rollNumber": "50011"
+          },
+          {
+            "name": "Grace Phillips",
+            "rollNumber": "50012"
+          },
+          {
+            "name": "Mason Evans",
+            "rollNumber": "50013"
+          },
+          {
+            "name": "Ella Parker",
+            "rollNumber": "50014"
+          },
+          {
+            "name": "Oliver Roberts",
+            "rollNumber": "50015"
+          },
+          {
+            "name": "Abigail Turner",
+            "rollNumber": "50016"
+          },
+          {
+            "name": "Henry Campbell",
+            "rollNumber": "50017"
+          },
+          {
+            "name": "Aubrey Carter",
+            "rollNumber": "50018"
+          },
+          {
+            "name": "James Allen",
+            "rollNumber": "50019"
+          },
+          {
+            "name": "Madison Richardson",
+            "rollNumber": "50020"
+          }
+        ]
+      }
+    ]
+  }
+  
