@@ -63,6 +63,7 @@ flutter:
   assets:
     - lib/assets/appBarBg.png
     - lib/assets/mainBg.png
+    - lib/constants/courses.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
