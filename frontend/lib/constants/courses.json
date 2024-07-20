@@ -3,7 +3,7 @@
       {
         "name": "Introduction to Computer Science",
         "code": "CS101",
-        "numberOfStudents": 20,
+        "numberOfStudents": "20",
         "students": [
           {
             "name": "John Doe",
@@ -90,7 +90,7 @@
       {
         "name": "Data Structures and Algorithms",
         "code": "CS102",
-        "numberOfStudents": 20,
+        "numberOfStudents": "20",
         "students": [
           {
             "name": "Aiden Turner",
@@ -177,7 +177,7 @@
       {
         "name": "Software Engineering",
         "code": "CS103",
-        "numberOfStudents": 20,
+        "numberOfStudents": "20",
         "students": [
           {
             "name": "Emma Harris",
@@ -264,7 +264,7 @@
       {
         "name": "Database Management Systems",
         "code": "CS104",
-        "numberOfStudents": 20,
+        "numberOfStudents": "20",
         "students": [
           {
             "name": "John Doe",
@@ -351,7 +351,7 @@
       {
         "name": "Operating Systems",
         "code": "CS105",
-        "numberOfStudents": 20,
+        "numberOfStudents": "20",
         "students": [
           {
             "name": "Aiden Turner",
