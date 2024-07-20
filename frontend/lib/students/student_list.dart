@@ -1,53 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show rootBundle;
-import 'package:frontend/home/CourseCard.dart';
-import 'dart:convert';
+import 'package:frontend/students/student_card.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class Homescreen extends StatefulWidget {
-  const Homescreen({super.key});
+class StudentList extends StatelessWidget {
+  final String courseName;
+  final List<dynamic> students;
 
-  @override
-  _HomescreenState createState() => _HomescreenState();
-}
-
-class _HomescreenState extends State<Homescreen> {
-  List<dynamic> courses = [];
-  List<dynamic> filteredCourses = [];
-  TextEditingController searchController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    loadCourses();
-    searchController.addListener(() {
-      filterCourses();
-    });
-  }
-
-  Future<void> loadCourses() async {
-    final String response = await rootBundle.loadString('lib/constants/courses.json');
-    final data = await json.decode(response);
-    setState(() {
-      courses = data['courses'];
-      filteredCourses = courses;
-    });
-  }
-
-  void filterCourses() {
-    String query = searchController.text.toLowerCase();
-    setState(() {
-      filteredCourses = courses.where((course) {
-        return course['name'].toString().toLowerCase().contains(query) ||
-               course['code'].toString().toLowerCase().contains(query);
-      }).toList();
-    });
-  }
+  const StudentList({
+    super.key,
+    required this.courseName,
+    required this.students,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _appBar(),
+      appBar: _appBar(context),
       body: Stack(
         children: [
           Container(
@@ -58,21 +26,26 @@ class _HomescreenState extends State<Homescreen> {
               ),
             ),
           ),
-          filteredCourses.isEmpty
-              ? const Center(child: CircularProgressIndicator())
-              : ListView.builder(
-                  itemCount: filteredCourses.length,
-                  itemBuilder: (context, index) {
-                    return courseCard(course: filteredCourses[index]);
-                  },
-                ),
+          ListView.builder(
+              itemCount: students.length,
+              itemBuilder: (context, index) {
+                final student = students[index];
+                return StudentCard(
+                  student: student,
+                  course: {
+                    'name': courseName,
+                    'students': students
+                  }, // Pass course details
+                );
+              }),
         ],
       ),
     );
   }
 
-  PreferredSize _appBar() {
+  PreferredSize _appBar(BuildContext context) {
     return PreferredSize(
+
       preferredSize: const Size.fromHeight(150),
       child: Stack(
         children: [
@@ -88,17 +61,19 @@ class _HomescreenState extends State<Homescreen> {
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      const Icon(
-                        Icons.account_circle_rounded,
-                        color: Colors.white,
-                      ),
+                      IconButton(
+                      icon: const Icon(Icons.arrow_back_outlined, color: Colors.white),
+                      onPressed: () {
+                        Navigator.pop(context); // Go back to the previous screen
+                      },
+                    ),
                       const SizedBox(width: 10),
                       Text(
-                        "SREEDEVI",
+                        courseName,
                         style: GoogleFonts.openSans(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -117,7 +92,7 @@ class _HomescreenState extends State<Homescreen> {
                       SizedBox(
                         height: 45,
                         child: TextFormField(
-                          controller: searchController,
+                          // controller: searchController,
                           decoration: InputDecoration(
                             hintText: "Search",
                             hintStyle: GoogleFonts.outfit(
