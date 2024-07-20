@@ -13,11 +13,16 @@ class Homescreen extends StatefulWidget {
 
 class _HomescreenState extends State<Homescreen> {
   List<dynamic> courses = [];
+  List<dynamic> filteredCourses = [];
+  TextEditingController searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     loadCourses();
+    searchController.addListener(() {
+      filterCourses();
+    });
   }
 
   Future<void> loadCourses() async {
@@ -25,6 +30,17 @@ class _HomescreenState extends State<Homescreen> {
     final data = await json.decode(response);
     setState(() {
       courses = data['courses'];
+      filteredCourses = courses;
+    });
+  }
+
+  void filterCourses() {
+    String query = searchController.text.toLowerCase();
+    setState(() {
+      filteredCourses = courses.where((course) {
+        return course['name'].toString().toLowerCase().contains(query) ||
+               course['code'].toString().toLowerCase().contains(query);
+      }).toList();
     });
   }
 
@@ -42,12 +58,12 @@ class _HomescreenState extends State<Homescreen> {
               ),
             ),
           ),
-          courses.isEmpty
+          filteredCourses.isEmpty
               ? const Center(child: CircularProgressIndicator())
               : ListView.builder(
-                  itemCount: courses.length,
+                  itemCount: filteredCourses.length,
                   itemBuilder: (context, index) {
-                    return courseCard(course: courses[index]);
+                    return courseCard(course: filteredCourses[index]);
                   },
                 ),
         ],
@@ -101,6 +117,7 @@ class _HomescreenState extends State<Homescreen> {
                       SizedBox(
                         height: 45,
                         child: TextFormField(
+                          controller: searchController,
                           decoration: InputDecoration(
                             hintText: "Search",
                             hintStyle: GoogleFonts.outfit(
