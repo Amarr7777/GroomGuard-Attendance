@@ -18,8 +18,21 @@ class _ScanScreenState extends State<ScanScreen> {
   @override
   void initState() {
     super.initState();
-    _controller = CameraController(widget.cameras[0], ResolutionPreset.max);
-    _initializeControllerFuture = _controller.initialize();
+    // Find the front camera
+    CameraDescription? frontCamera;
+    for (var camera in widget.cameras) {
+      if (camera.lensDirection == CameraLensDirection.front) {
+        frontCamera = camera;
+        break;
+      }
+    }
+    if (frontCamera != null) {
+      _controller = CameraController(frontCamera, ResolutionPreset.max);
+      _initializeControllerFuture = _controller.initialize();
+    } else {
+      // Handle the case where no front camera is found
+      print("No front camera found");
+    }
   }
 
   @override
