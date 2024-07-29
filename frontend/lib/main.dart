@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:camera/camera.dart';
 import 'package:frontend/home/HomeScreen.dart';
 
-void main() {
-  runApp(const MyApp());
+late List<CameraDescription> cameras;
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  cameras = await availableCameras();
+  runApp(MyApp(cameras: cameras));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final List<CameraDescription> cameras;
 
-  // This widget is the root of your application.
+  const MyApp({super.key, required this.cameras});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -18,8 +24,7 @@ class MyApp extends StatelessWidget {
         primaryColor: const Color(0xFF01B088),
         useMaterial3: true,
       ),
-      home: const Homescreen()
+      home: HomeScreen(cameras: cameras),
     );
   }
 }
-

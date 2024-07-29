@@ -31,24 +31,29 @@ class StudentCard extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(10),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                        student['name'],
-                        style: GoogleFonts.outfit(
-                            fontWeight: FontWeight.bold, color: Colors.black),
-                      ),
-                    Text(
-                        student['rollNumber'],
-                        style: GoogleFonts.outfit(
-                            fontWeight:FontWeight.w300, color: Colors.black),
-                      ),
-                  ],
-                ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    student['name'],
+                    style: GoogleFonts.outfit(
+                        fontWeight: FontWeight.bold, color: Colors.black),
+                  ),
+                  Text(
+                    student['rollNumber'],
+                    style: GoogleFonts.outfit(
+                        fontWeight: FontWeight.w300, color: Colors.black),
+                  ),
+                ],
+              ),
+              Text(
+                student['attendancePercentage'].toString(),
+                style: GoogleFonts.outfit(
+                    fontWeight: FontWeight.bold, 
+                    color: student['attendancePercentage'] < 85 ? Colors.red : Theme.of(context).primaryColor),
               ),
             ],
           ),

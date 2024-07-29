@@ -3,15 +3,18 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:frontend/home/CourseCard.dart';
 import 'dart:convert';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:camera/camera.dart';
 
-class Homescreen extends StatefulWidget {
-  const Homescreen({super.key});
+
+class HomeScreen extends StatefulWidget {
+  final List<CameraDescription> cameras;
+  const HomeScreen({super.key, required this.cameras});
 
   @override
-  _HomescreenState createState() => _HomescreenState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomescreenState extends State<Homescreen> {
+class _HomeScreenState extends State<HomeScreen> {
   List<dynamic> courses = [];
   List<dynamic> filteredCourses = [];
   TextEditingController searchController = TextEditingController();
@@ -63,7 +66,7 @@ class _HomescreenState extends State<Homescreen> {
               : ListView.builder(
                   itemCount: filteredCourses.length,
                   itemBuilder: (context, index) {
-                    return courseCard(course: filteredCourses[index]);
+                    return CourseCard(course: filteredCourses[index], cameras: widget.cameras);
                   },
                 ),
         ],
