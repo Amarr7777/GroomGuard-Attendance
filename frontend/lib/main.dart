@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:frontend/Login/login_screen.dart';
 import 'package:frontend/home/HomeScreen.dart';
 
 late List<CameraDescription> cameras;
@@ -24,7 +25,8 @@ class MyApp extends StatelessWidget {
         primaryColor: const Color(0xFF01B088),
         useMaterial3: true,
       ),
-      home: HomeScreen(cameras: cameras),
+      // home: HomeScreen(cameras: cameras),
+      home: const LoginScreen(),
     );
   }
 }
