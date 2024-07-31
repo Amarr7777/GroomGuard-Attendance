@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:frontend/students/student_list.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,6 +18,9 @@ class CourseCard extends StatelessWidget {
       child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.white
+            ),
               onPressed: () {
                 Navigator.push(
                   context,
@@ -30,7 +35,7 @@ class CourseCard extends StatelessWidget {
               },
               child: Padding(
                 padding: const EdgeInsets.all(10),
-                child: Row(
+                child: Row(                  
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Column(

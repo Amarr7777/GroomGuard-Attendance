@@ -5,7 +5,6 @@ import 'dart:convert';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:camera/camera.dart';
 
-
 class HomeScreen extends StatefulWidget {
   final List<CameraDescription> cameras;
   const HomeScreen({super.key, required this.cameras});
@@ -29,7 +28,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> loadCourses() async {
-    final String response = await rootBundle.loadString('lib/constants/courses.json');
+    final String response =
+        await rootBundle.loadString('lib/constants/courses.json');
     final data = await json.decode(response);
     setState(() {
       courses = data['courses'];
@@ -42,35 +42,38 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       filteredCourses = courses.where((course) {
         return course['name'].toString().toLowerCase().contains(query) ||
-               course['code'].toString().toLowerCase().contains(query);
+            course['code'].toString().toLowerCase().contains(query);
       }).toList();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _appBar(),
-      body: Stack(
-        children: [
-          Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('lib/assets/mainBg.png'),
-                fit: BoxFit.cover,
-              ),
+    return Stack(
+      children: [
+        Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('lib/assets/mainBg.png'),
+              fit: BoxFit.cover,
             ),
           ),
-          filteredCourses.isEmpty
+        ),
+        Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: _appBar(),
+          body: filteredCourses.isEmpty
               ? const Center(child: CircularProgressIndicator())
               : ListView.builder(
                   itemCount: filteredCourses.length,
                   itemBuilder: (context, index) {
-                    return CourseCard(course: filteredCourses[index], cameras: widget.cameras);
+                    return CourseCard(
+                        course: filteredCourses[index],
+                        cameras: widget.cameras);
                   },
                 ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

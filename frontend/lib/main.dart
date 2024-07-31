@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       // home: HomeScreen(cameras: cameras),
-      home: const LoginScreen(),
+      home: LoginScreen(cameras: cameras),
     );
   }
 }
