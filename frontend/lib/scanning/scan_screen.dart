@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/summary/summary_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:camera/camera.dart';
 
@@ -43,18 +44,20 @@ class _ScanScreenState extends State<ScanScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _appBar(),
-      body: Stack(
-        children: [
-          Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("lib/assets/mainBg.png"),
-                fit: BoxFit.cover,
-              ),
+    return Stack(
+      children: [
+        Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('lib/assets/mainBg.png'),
+              fit: BoxFit.cover,
             ),
-            child: Padding(
+          ),
+        ),
+        Scaffold(
+            backgroundColor: Colors.transparent,
+            appBar: _appBar(),
+            body: Padding(
               padding: const EdgeInsets.all(10.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -62,20 +65,20 @@ class _ScanScreenState extends State<ScanScreen> {
                   SizedBox(
                     height: 400,
                     width: 350,
-                    child: FutureBuilder<void>(
-                      future: _initializeControllerFuture,
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          return AspectRatio(
-                            aspectRatio: _controller.value.aspectRatio,
-                            child: CameraPreview(_controller),
-                          );
-                        } else {
-                          return const Center(
-                              child: CircularProgressIndicator());
-                        }
-                      },
-                    ),
+                    // child: FutureBuilder<void>(
+                    //   future: _initializeControllerFuture,
+                    //   builder: (context, snapshot) {
+                    //     if (snapshot.connectionState == ConnectionState.done) {
+                    //       return AspectRatio(
+                    //         aspectRatio: _controller.value.aspectRatio,
+                    //         child: CameraPreview(_controller),
+                    //       );
+                    //     } else {
+                    //       return const Center(
+                    //           child: CircularProgressIndicator());
+                    //     }
+                    //   },
+                    // ),
                   ),
                   const SizedBox(height: 50),
                   Text(
@@ -85,7 +88,7 @@ class _ScanScreenState extends State<ScanScreen> {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 50),
+                  const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -94,6 +97,9 @@ class _ScanScreenState extends State<ScanScreen> {
                         width: 120,
                         height: 50,
                         child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                              foregroundColor: Theme.of(context).primaryColor),
                           onPressed: () {
                             _controller.dispose();
                             _controller = CameraController(
@@ -135,15 +141,55 @@ class _ScanScreenState extends State<ScanScreen> {
                 ],
               ),
             ),
-          ),
-        ],
-      ),
+            floatingActionButton: Padding(
+              padding: const EdgeInsets.only(right: 10,bottom: 0),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Container(
+                    width: 70,
+                    height: 70,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(200.0),
+                        color: const Color(0xFFD9FFF6)),
+                    // child:  IconButton(icon: const Icon(Icons.check_rounded),onPressed: (){},focusColor: Theme.of(context).primaryColor,color: Colors.white,)
+                  ),
+                  Container(
+                    width: 55,
+                    height: 55,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(200.0),
+                        color: const Color(0xFFB0FFED)),
+                    // child:  IconButton(icon: const Icon(Icons.check_rounded),onPressed: (){},focusColor: Theme.of(context).primaryColor,color: Colors.white,)
+                  ),
+                  Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(200.0),
+                        color: const Color(0xFF06DFAD),
+                      ),
+                      child: IconButton(
+                        icon: const Icon(Icons.check_rounded),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const SummaryScreen()));
+                        },
+                        focusColor: Theme.of(context).primaryColor,
+                        color: Colors.white,
+                      )),
+                ],
+              ),
+            )),
+      ],
     );
   }
 
   PreferredSize _appBar() {
     return PreferredSize(
-      preferredSize: const Size.fromHeight(100),
+      preferredSize: const Size.fromHeight(150),
       child: Stack(
         children: [
           Container(
