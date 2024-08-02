@@ -1,24 +1,28 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/home/HomeScreen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+  final List<CameraDescription> cameras;
+  const LoginScreen({super.key, required this.cameras});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _appBar(),
-      body: Stack(
-        children: [
-          Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('lib/assets/mainBg.png'),
-                fit: BoxFit.cover,
-              ),
+    return Stack(
+      children: [
+        Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('lib/assets/mainBg.png'),
+              fit: BoxFit.cover,
             ),
           ),
-          Column(
+        ),
+        Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: _appBar(),
+          body: Column(
             children: [
               Expanded(
                 child: Center(
@@ -62,7 +66,7 @@ class LoginScreen extends StatelessWidget {
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(30),
-                                borderSide:  BorderSide(
+                                borderSide: BorderSide(
                                   style: BorderStyle.solid,
                                   width: 1,
                                   color: Theme.of(context).primaryColor,
@@ -77,10 +81,16 @@ class LoginScreen extends StatelessWidget {
                           width: 200,
                           height: 50,
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => HomeScreen(cameras: cameras),
+                                ),
+                              );
+                            },
                             style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    Theme.of(context).primaryColor),
+                                backgroundColor: Theme.of(context).primaryColor),
                             child: Text(
                               "Login",
                               style: GoogleFonts.outfit(
@@ -97,8 +107,8 @@ class LoginScreen extends StatelessWidget {
               ),
             ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

@@ -7,7 +7,7 @@ import 'package:camera/camera.dart';
 class StudentList extends StatelessWidget {
   final String courseName;
   final List<dynamic> students;
-   final List<CameraDescription> cameras;
+  final List<CameraDescription> cameras;
 
   const StudentList({
     super.key,
@@ -18,19 +18,20 @@ class StudentList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: _appBar(context),
-        body: Stack(
-          children: [
-            Container(
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('lib/assets/mainBg.png'),
-                  fit: BoxFit.cover,
-                ),
-              ),
+    return Stack(
+      children: [
+        Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('lib/assets/mainBg.png'),
+              fit: BoxFit.cover,
             ),
-            ListView.builder(
+          ),
+        ),
+        Scaffold(
+            backgroundColor: Colors.transparent,
+            appBar: _appBar(context),
+            body: ListView.builder(
                 itemCount: students.length,
                 itemBuilder: (context, index) {
                   final student = students[index];
@@ -42,26 +43,27 @@ class StudentList extends StatelessWidget {
                     }, // Pass course details
                   );
                 }),
-          ],
-        ),
-        floatingActionButton: Container(
-          width: 150,
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(100.0)),
-          child: FloatingActionButton.extended(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>  ScanScreen(cameras: cameras),
-                ),
-              );
-            },
-            label: Text("Scan",
-                style: GoogleFonts.outfit(
-                    color: Colors.white, fontWeight: FontWeight.bold)),
-            backgroundColor: Theme.of(context).primaryColor,
-          ),
-        ));
+            floatingActionButton: Container(
+              width: 150,
+              decoration:
+                  BoxDecoration(borderRadius: BorderRadius.circular(100.0)),
+              child: FloatingActionButton.extended(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ScanScreen(cameras: cameras),
+                    ),
+                  );
+                },
+                label: Text("Scan",
+                    style: GoogleFonts.outfit(
+                        color: Colors.white, fontWeight: FontWeight.bold)),
+                backgroundColor: Theme.of(context).primaryColor,
+              ),
+            )),
+      ],
+    );
   }
 
   PreferredSize _appBar(BuildContext context) {
