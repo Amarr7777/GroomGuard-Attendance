@@ -65,20 +65,20 @@ class _ScanScreenState extends State<ScanScreen> {
                   SizedBox(
                     height: 400,
                     width: 350,
-                    // child: FutureBuilder<void>(
-                    //   future: _initializeControllerFuture,
-                    //   builder: (context, snapshot) {
-                    //     if (snapshot.connectionState == ConnectionState.done) {
-                    //       return AspectRatio(
-                    //         aspectRatio: _controller.value.aspectRatio,
-                    //         child: CameraPreview(_controller),
-                    //       );
-                    //     } else {
-                    //       return const Center(
-                    //           child: CircularProgressIndicator());
-                    //     }
-                    //   },
-                    // ),
+                    child: FutureBuilder<void>(
+                      future: _initializeControllerFuture,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.done) {
+                          return AspectRatio(
+                            aspectRatio: _controller.value.aspectRatio,
+                            child: CameraPreview(_controller),
+                          );
+                        } else {
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        }
+                      },
+                    ),
                   ),
                   const SizedBox(height: 50),
                   Text(

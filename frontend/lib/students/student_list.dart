@@ -1,20 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/scanning/scan_screen.dart';
-import 'package:frontend/students/student_card.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:camera/camera.dart';
+import 'student_card.dart';
 
-class StudentList extends StatelessWidget {
+class StudentList extends StatefulWidget {
   final String courseName;
   final List<dynamic> students;
   final List<CameraDescription> cameras;
 
   const StudentList({
-    super.key,
+    Key? key,
     required this.courseName,
     required this.students,
     required this.cameras,
-  });
+  }) : super(key: key);
+
+  @override
+  _StudentListState createState() => _StudentListState();
+}
+
+class _StudentListState extends State<StudentList> {
+  List<dynamic> filteredStudents = [];
+  TextEditingController searchController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    filteredStudents = widget.students;
+    searchController.addListener(filterStudents);
+  }
+
+  @override
+  void dispose() {
+    searchController.removeListener(filterStudents);
+    searchController.dispose();
+    super.dispose();
+  }
+
+  void filterStudents() {
+    String query = searchController.text.toLowerCase();
+    setState(() {
+      filteredStudents = widget.students.where((student) {
+        return student['name'].toString().toLowerCase().contains(query) ||
+            student['code'].toString().toLowerCase().contains(query);
+      }).toList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,44 +61,48 @@ class StudentList extends StatelessWidget {
           ),
         ),
         Scaffold(
-            backgroundColor: Colors.transparent,
-            appBar: _appBar(context),
-            body: ListView.builder(
-                itemCount: students.length,
-                itemBuilder: (context, index) {
-                  final student = students[index];
-                  return StudentCard(
-                    student: student,
-                    course: {
-                      'name': courseName,
-                      'students': students
-                    }, // Pass course details
-                  );
-                }),
-            floatingActionButton: Container(
-              width: 150,
-              decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(100.0)),
-              child: FloatingActionButton.extended(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ScanScreen(cameras: cameras),
-                    ),
-                  );
-                },
-                label: Text("Scan",
-                    style: GoogleFonts.outfit(
-                        color: Colors.white, fontWeight: FontWeight.bold)),
-                backgroundColor: Theme.of(context).primaryColor,
+          backgroundColor: Colors.transparent,
+          appBar: _appBar(context),
+          body: ListView.builder(
+            itemCount: filteredStudents.length,
+            itemBuilder: (context, index) {
+              final student = filteredStudents[index];
+              return StudentCard(
+                student: student,
+                course: {'name': widget.courseName, 'students': widget.students},
+              );
+            },
+          ),
+          floatingActionButton: Container(
+            width: 150,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(100.0),
+            ),
+            child: FloatingActionButton.extended(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ScanScreen(cameras: widget.cameras),
+                  ),
+                );
+              },
+              label: Text(
+                "Scan",
+                style: GoogleFonts.outfit(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            )),
+              backgroundColor: Theme.of(context).primaryColor,
+            ),
+          ),
+        ),
       ],
     );
   }
 
-  PreferredSize _appBar(BuildContext context) {
+  PreferredSizeWidget _appBar(BuildContext context) {
     return PreferredSize(
       preferredSize: const Size.fromHeight(180),
       child: Stack(
@@ -91,13 +127,12 @@ class StudentList extends StatelessWidget {
                         icon: const Icon(Icons.arrow_back_outlined,
                             color: Colors.white),
                         onPressed: () {
-                          Navigator.pop(
-                              context); // Go back to the previous screen
+                          Navigator.pop(context);
                         },
                       ),
                       const SizedBox(width: 10),
                       Text(
-                        courseName,
+                        widget.courseName,
                         style: GoogleFonts.openSans(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -116,7 +151,7 @@ class StudentList extends StatelessWidget {
                       SizedBox(
                         height: 45,
                         child: TextFormField(
-                          // controller: searchController,
+                          controller: searchController,
                           decoration: InputDecoration(
                             hintText: "Search",
                             hintStyle: GoogleFonts.outfit(
