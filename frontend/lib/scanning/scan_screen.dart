@@ -5,8 +5,10 @@ import 'package:camera/camera.dart';
 
 class ScanScreen extends StatefulWidget {
   final List<CameraDescription> cameras;
+  final String courseName;
 
-  const ScanScreen({super.key, required this.cameras});
+  const ScanScreen(
+      {super.key, required this.cameras, required this.courseName});
 
   @override
   State<ScanScreen> createState() => _ScanScreenState();
@@ -44,6 +46,10 @@ class _ScanScreenState extends State<ScanScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    final buttonWidth = screenSize.width * 0.3;
+    final cameraPreviewHeight = screenSize.height * 0.5;
+
     return Stack(
       children: [
         Container(
@@ -54,115 +60,118 @@ class _ScanScreenState extends State<ScanScreen> {
             ),
           ),
         ),
-        Scaffold(
-            backgroundColor: Colors.transparent,
-            appBar: _appBar(),
-            body: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: 400,
-                    width: 350,
-                    // child: FutureBuilder<void>(
-                    //   future: _initializeControllerFuture,
-                    //   builder: (context, snapshot) {
-                    //     if (snapshot.connectionState == ConnectionState.done) {
-                    //       return AspectRatio(
-                    //         aspectRatio: _controller.value.aspectRatio,
-                    //         child: CameraPreview(_controller),
-                    //       );
-                    //     } else {
-                    //       return const Center(
-                    //           child: CircularProgressIndicator());
-                    //     }
-                    //   },
-                    // ),
-                  ),
-                  const SizedBox(height: 50),
-                  Text(
-                    "Please ensure your eyes are visible and your face is framed from the shoulders up",
-                    style: GoogleFonts.outfit(
-                      color: Colors.black,
+        WillPopScope(
+            onWillPop: () async {
+              return false;
+            },
+            child: Scaffold(
+              backgroundColor: Colors.transparent,
+              appBar: _appBar(),
+              body: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: cameraPreviewHeight,
+                      width: screenSize.width * 0.9,
+                      // child: FutureBuilder<void>(
+                      //   future: _initializeControllerFuture,
+                      //   builder: (context, snapshot) {
+                      //     if (snapshot.connectionState == ConnectionState.done) {
+                      //       return AspectRatio(
+                      //         aspectRatio: _controller.value.aspectRatio,
+                      //         child: CameraPreview(_controller),
+                      //       );
+                      //     } else {
+                      //       return const Center(child: CircularProgressIndicator());
+                      //     }
+                      //   },
+                      // ),
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        width: 120,
-                        height: 50,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
+                    const SizedBox(height: 20),
+                    Text(
+                      "Please ensure your eyes are visible and your face is framed from the shoulders up",
+                      style: GoogleFonts.outfit(
+                        color: Colors.black,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: buttonWidth,
+                          height: 50,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.white,
-                              foregroundColor: Theme.of(context).primaryColor),
-                          onPressed: () {
-                            _controller.dispose();
-                            _controller = CameraController(
-                                widget.cameras[0], ResolutionPreset.max);
-                            _initializeControllerFuture =
-                                _controller.initialize();
-                          },
-                          child: Text(
-                            "Try Again",
-                            style: GoogleFonts.outfit(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
+                              foregroundColor: Theme.of(context).primaryColor,
+                            ),
+                            onPressed: () {
+                              _controller.dispose();
+                              _controller = CameraController(
+                                  widget.cameras[0], ResolutionPreset.max);
+                              _initializeControllerFuture =
+                                  _controller.initialize();
+                            },
+                            child: Text(
+                              "Try Again",
+                              style: GoogleFonts.outfit(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      const SizedBox(width: 10),
-                      SizedBox(
-                        width: 120,
-                        height: 50,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            // Handle the next action here
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Theme.of(context).primaryColor,
-                          ),
-                          child: Text(
-                            "Next",
-                            style: GoogleFonts.outfit(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                        const SizedBox(width: 10),
+                        SizedBox(
+                          width: buttonWidth,
+                          height: 50,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              // Handle the next action here
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Theme.of(context).primaryColor,
+                            ),
+                            child: Text(
+                              "Next",
+                              style: GoogleFonts.outfit(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-            floatingActionButton: Padding(
-              padding: const EdgeInsets.only(right: 10,bottom: 0),
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  Container(
-                    width: 70,
-                    height: 70,
-                    decoration: BoxDecoration(
+              floatingActionButton: Padding(
+                padding: const EdgeInsets.only(right: 10, bottom: 0),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Container(
+                      width: 70,
+                      height: 70,
+                      decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(200.0),
-                        color: const Color(0xFFD9FFF6)),
-                    // child:  IconButton(icon: const Icon(Icons.check_rounded),onPressed: (){},focusColor: Theme.of(context).primaryColor,color: Colors.white,)
-                  ),
-                  Container(
-                    width: 55,
-                    height: 55,
-                    decoration: BoxDecoration(
+                        color: const Color(0xFFD9FFF6),
+                      ),
+                    ),
+                    Container(
+                      width: 55,
+                      height: 55,
+                      decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(200.0),
-                        color: const Color(0xFFB0FFED)),
-                    // child:  IconButton(icon: const Icon(Icons.check_rounded),onPressed: (){},focusColor: Theme.of(context).primaryColor,color: Colors.white,)
-                  ),
-                  Container(
+                        color: const Color(0xFFB0FFED),
+                      ),
+                    ),
+                    Container(
                       width: 40,
                       height: 40,
                       decoration: BoxDecoration(
@@ -173,21 +182,26 @@ class _ScanScreenState extends State<ScanScreen> {
                         icon: const Icon(Icons.check_rounded),
                         onPressed: () {
                           Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const SummaryScreen()));
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  SummaryScreen(courseName: widget.courseName),
+                            ),
+                          );
                         },
                         focusColor: Theme.of(context).primaryColor,
                         color: Colors.white,
-                      )),
-                ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             )),
       ],
     );
   }
 
-  PreferredSize _appBar() {
+  PreferredSizeWidget _appBar() {
     return PreferredSize(
       preferredSize: const Size.fromHeight(150),
       child: Stack(

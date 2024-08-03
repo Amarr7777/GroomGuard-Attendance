@@ -3,7 +3,8 @@ import 'package:frontend/summary/elevatedButton.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SummaryScreen extends StatelessWidget {
-  const SummaryScreen({super.key});
+  final String courseName;
+  const SummaryScreen({super.key,required this.courseName});
 
   @override
   Widget build(BuildContext context) {
@@ -25,19 +26,19 @@ class SummaryScreen extends StatelessWidget {
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Column(children: [
-                    SizedBox(
+                   Column(children: [
+                    const SizedBox(
                       height: 20,
                     ),
-                    ElevatedbuttonW(displayText: "Presentee", displayNum: "60"),
-                    SizedBox(
+                    ElevatedButtonW(displayText: "Presentee", displayNum: "60",courseName: courseName),
+                    const SizedBox(
                       height: 20,
                     ),
-                    ElevatedbuttonW(displayText: "Absentees", displayNum: "2"),
-                    SizedBox(
+                    ElevatedButtonW(displayText: "Absentees", displayNum: "2",courseName: courseName),
+                    const SizedBox(
                       height: 20,
                     ),
-                    ElevatedbuttonW(displayText: "Flagged", displayNum: "1"),
+                    ElevatedButtonW(displayText: "Flagged", displayNum: "1",courseName: courseName),
                   ]),
                   Column(children: [
                     Padding(
