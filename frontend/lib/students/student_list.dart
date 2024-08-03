@@ -83,7 +83,7 @@ class _StudentListState extends State<StudentList> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ScanScreen(cameras: widget.cameras),
+                    builder: (context) => ScanScreen(cameras: widget.cameras,courseName:widget.courseName),
                   ),
                 );
               },
