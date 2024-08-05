@@ -19,6 +19,66 @@ class ElevatedButtonW extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
 
+    Future<void> _showStudentList(BuildContext context) async {
+      // Load the JSON data
+      final String response =
+          await rootBundle.loadString('lib/constants/courses.json');
+      final Map<String, dynamic> data = json.decode(response);
+
+      // Find the course data that matches the selected course name
+      final courseData = (data['courses'] as List).firstWhere(
+          (course) => course['name'] == courseName,
+          orElse: () => {});
+
+      // Extract student data from the selected course
+      final List<dynamic> students = courseData['students'] ?? [];
+
+      showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('lib/assets/mainBg.png'),
+                fit: BoxFit.fill,
+              ),
+            ),
+            width: screenSize.width,
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 10),
+                  Text(
+                    displayText,
+                    style: GoogleFonts.outfit(
+                      color: Theme.of(context).primaryColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: students.length,
+                      itemBuilder: (context, index) {
+                        final student = students[index];
+                        return SummaryStudentList(
+                          name: student['name'],
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      );
+    }
+
     return SizedBox(
       height: 60,
       width: 380,
@@ -26,65 +86,7 @@ class ElevatedButtonW extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: Theme.of(context).primaryColor,
         ),
-        onPressed: () async {
-          // Load the JSON data
-          final String response =
-              await rootBundle.loadString('lib/constants/courses.json');
-          final Map<String, dynamic> data = json.decode(response);
-
-          // Find the course data that matches the selected course name
-          final courseData = (data['courses'] as List).firstWhere(
-              (course) => course['name'] == courseName,
-              orElse: () => {});
-
-          // Extract student data from the selected course
-          final List<dynamic> students = courseData['students'] ?? [];
-
-          showModalBottomSheet(
-            context: context,
-            builder: (context) {
-              return Container(
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('lib/assets/mainBg.png'),
-                    fit: BoxFit.fill,
-                  ),
-                ),
-                width: screenSize.width,
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 10),
-                      Text(
-                        displayText,
-                        style: GoogleFonts.outfit(
-                          color: Theme.of(context).primaryColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Expanded(
-                        child: ListView.builder(
-                          itemCount: students.length,
-                          itemBuilder: (context, index) {
-                            final student = students[index];
-                            return SummaryStudentList(
-                              name: student['name'],
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
-          );
-        },
+        onPressed: () => _showStudentList(context),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -107,14 +109,7 @@ class ElevatedButtonW extends StatelessWidget {
                 SizedBox(
                   width: 20,
                   child: IconButton(
-                    onPressed: () {
-                      showModalBottomSheet(
-                        context: context,
-                        builder: (context) {
-                          return Container();
-                        },
-                      );
-                    },
+                    onPressed: () => _showStudentList(context),
                     icon: const Icon(
                       Icons.keyboard_arrow_down_rounded,
                       color: Colors.white,
