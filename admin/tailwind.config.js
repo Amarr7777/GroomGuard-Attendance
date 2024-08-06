@@ -7,6 +7,9 @@ export default {
       colors: {
         'primaryColor': '#01B088',        
       },
+      fontFamily:{
+        Outfit : 'Outfit'
+      },
     },
   },
   plugins: [
