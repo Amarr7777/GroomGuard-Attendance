@@ -5,7 +5,7 @@ import AddIcon from "@mui/icons-material/Add";
 
 function Courses() {
   return (
-    <div className="">
+    <div className="min-h-screen">
       <div className="flex w-full justify-end p-4 fixed top-0 right-0 z-50">
         <div className="px-4 py-2 shadow-lg rounded-3xl bg-white flex items-center">
           <SearchIcon className="text-primaryColor" />
@@ -29,7 +29,7 @@ function Courses() {
         <CourseCard />
         <CourseCard />
       </div>
-      <div className="flex justify-center items-center fixed bottom-5 right-5 w-16 h-16 bg-primaryColor rounded-full shadow-lg hover:scale-105">
+      <div className="flex justify-center items-center fixed bottom-5 right-5 w-16 h-16 bg-primaryColor rounded-full shadow-lg hover:scale-105 cursor-pointer">
         <AddIcon className="text-white scale-105" />
       </div>
     </div>
