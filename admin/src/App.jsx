@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import Sidebar from "./components/sidebar/Sidebar";
-import General from "./components/General/General";
-import mainBG from "./assets/mainBg.png";
 import Students from "./components/Students/Students";
 import Courses from "./components/Courses/Courses";
 import Teachers from "./components/Teachers/Teachers";
+import mainBG from "./assets/mainBg.png";
+
 function App() {
-  const [renderScreenVal,setRenderScreenVal] = useState(0);
+  const [renderScreenVal, setRenderScreenVal] = useState(0);
+
   const renderScreen = () => {
     switch (renderScreenVal) {
       case 0:
@@ -19,17 +20,21 @@ function App() {
         return <Students />;
     }
   };
+
   return (
     <div
-      className="flex h-screen"
+      className="flex"
       style={{
         backgroundImage: `url(${mainBG})`,
-        backgroundSize: "cover",
+        backgroundSize: "fill",  // Changed to 'cover'
         backgroundPosition: "center",
+        backgroundRepeat: "repeat"  // Changed to 'no-repeat'
       }}
     >
-      <Sidebar setRenderScreenVal={setRenderScreenVal}/>
-      {renderScreen()}
+      <Sidebar setRenderScreenVal={setRenderScreenVal} />
+      <div className="ml-16 flex-grow p-4">
+        {renderScreen()}
+      </div>
     </div>
   );
 }
