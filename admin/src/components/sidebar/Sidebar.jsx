@@ -3,7 +3,7 @@ import logoImg from "../../assets/logo.png";
 
 function Sidebar({ setRenderScreenVal }) {
   return (
-    <div className="fixed flex w-16 h-screen bg-transparent z-50 font-Outfit">
+    <div className="fixed flex w-16 h-screen bg-transparent z-40 font-Outfit">
       <div className="flex h-screen w-16 flex-col justify-between border-e bg-transparent backdrop-blur-sm">
         <div>
           <div className="inline-flex size-16 items-center justify-center">
