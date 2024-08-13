@@ -7,6 +7,8 @@ import mainBG from "./assets/mainBg.png";
 
 function App() {
   const [renderScreenVal, setRenderScreenVal] = useState(0);
+  const[teacherDataFetched,setTeacherDataFetched] = useState(false)
+  const [teachers, setTeachers] = useState([]);
 
   const renderScreen = () => {
     switch (renderScreenVal) {
@@ -15,7 +17,11 @@ function App() {
       case 1:
         return <Courses />;
       case 2:
-        return <Teachers />;
+        return <Teachers 
+        teachers={teachers}
+        setTeachers={setTeachers}
+        teacherDataFetched={teacherDataFetched} 
+        setTeacherDataFetched={setTeacherDataFetched} />;
       default:
         return <Students />;
     }

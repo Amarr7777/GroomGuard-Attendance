@@ -1,14 +1,39 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect, useMemo } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import Webcam from "react-webcam";
+import { addDoc, collection, getDocs } from "firebase/firestore";
+import { firestore } from "../../firebase/config";
 
-function AddTeacher({ SetShowModal }) {
-  const [selectedClasses, setSelectedClasses] = useState([]);
+function AddTeacher({ handleModal }) {
+  const [selectedCourses, setSelectedCourses] = useState([]);
   const [capturedImage, setCapturedImage] = useState(null);
+  const [courses, setCourses] = useState([]);
   const webcamRef = useRef(null);
   const [showCamera, setShowCamera] = useState(false);
-
-  const classes = ["Class 1", "Class 2", "Class 3", "Class 4"];
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [pin, setPin] = useState("");
+  
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const courseCollection = await getDocs(
+          collection(firestore, "courses")
+        );
+        const courseList = courseCollection.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        const sortedCourses = courseList.sort((a, b) =>
+          a.courseName.localeCompare(b.courseName)
+        );
+        setCourses(sortedCourses);
+      } catch (error) {
+        console.error("Error fetching courses:", error);
+      }
+    };
+    fetchCourses();
+  }, []);
 
   const captureImage = () => {
     const imageSrc = webcamRef.current.getScreenshot();
@@ -16,18 +41,31 @@ function AddTeacher({ SetShowModal }) {
     setShowCamera(false);
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
+    try {
+      await addDoc(collection(firestore, "users"), {
+        courses: selectedCourses,
+        email,
+        faceId: "kjahjd", 
+        name,
+        role: "Teacher",
+        pin: parseInt(pin), 
+      });
+      handleModal();
 
-    if (capturedImage) {
-      // Send capturedImage to your server or face recognition API
-      console.log("Captured Face Image:", capturedImage);
+    } catch (e) {
+      console.error("Error adding teacher: ", e);
     }
-
-    // Rest of your form submission logic
   };
 
-
+  const handleCourseSelection = (courseId) => {
+    setSelectedCourses((prevSelectedCourses) =>
+      prevSelectedCourses.includes(courseId)
+        ? prevSelectedCourses.filter((id) => id !== courseId)
+        : [...prevSelectedCourses, courseId]
+    );
+  };
 
   return (
     <div className="absolute flex justify-center items-center inset-0 bg-transparent backdrop-blur-md w-full z-50">
@@ -38,7 +76,7 @@ function AddTeacher({ SetShowModal }) {
           </h2>
           <div
             onClick={() => {
-              SetShowModal(false);
+              handleModal();
             }}
             className="cursor-pointer"
           >
@@ -53,48 +91,46 @@ function AddTeacher({ SetShowModal }) {
               type="text"
               placeholder="Name"
               className="border border-gray-300 p-2 rounded-md"
+              value={name}
+              onChange={(e) => setName(e.target.value)} // Updated event handler
               required
             />
-            {/* <label className="text-sm text-gray-600">Roll Number</label>
-              <input
-                type="text"
-                placeholder="Roll Number"
-                className="border border-gray-300 p-2 rounded-md"
-                required
-              /> */}
-               <label className="text-sm text-gray-600">Email</label>
+            <label className="text-sm text-gray-600">Email</label>
             <input
               type="email"
               placeholder="Email"
               className="border border-gray-300 p-2 rounded-md"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)} // Updated event handler
               required
             />
             <label className="text-sm text-gray-600">Courses</label>
-            <select
-              value={selectedClasses}
-              onChange={(e) => {
-                const selectedOptions = Array.from(
-                  e.target.selectedOptions,
-                  (option) => option.value
-                );
-                setSelectedClasses(selectedOptions);
-              }}
-              className="border border-gray-300 p-2 rounded-md"
-              multiple
-              required
-            >
-              <option value="" disabled className="text-gray-300 p-2">
-                Select Classes
-              </option>
-              {classes.map((className) => (
-                <option key={className} value={className}>
-                  {className}
-                </option>
+            <div className="space-y-2 max-h-16 overflow-y-scroll">
+              {courses.map((course) => (
+                <div key={course.id} className="flex items-center">
+                  <input
+                    type="checkbox"
+                    id={course.id}
+                    name="course"
+                    value={course.id}
+                    onChange={() => handleCourseSelection(course.id)}
+                    className="mr-2"
+                  />
+                  <label htmlFor={course.id} className="text-sm text-gray-600">
+                    {course.courseName}
+                  </label>
+                </div>
               ))}
-            </select>
-
-           
-
+            </div>
+            <label className="text-sm text-gray-600">Security Pin</label>
+            <input
+              type="number"
+              placeholder="PIN"
+              className="border border-gray-300 p-2 rounded-md"
+              value={pin}
+              onChange={(e) => setPin(e.target.value)} // Updated event handler
+              required
+            />
             <label className="text-sm text-gray-600">Capture Face</label>
             {capturedImage ? (
               <img
