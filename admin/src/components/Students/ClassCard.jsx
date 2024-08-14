@@ -4,12 +4,12 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import SearchIcon from "@mui/icons-material/Search";
 import StudentCard from "./StudentCard";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs, deleteDoc, doc } from "firebase/firestore";
 import { firestore } from "../../firebase/config"; // Ensure this is correctly imported
 
-function ClassCard({ course }) {
+function ClassCard({ course, onDelete }) { // Added onDelete prop to handle class deletion at parent level
   const [showStudents, setShowStudents] = useState(false);
-  const [students,setStudents] = useState([])
+  const [students, setStudents] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
   var visibility = "hidden";
@@ -39,8 +39,21 @@ function ClassCard({ course }) {
   };
 
   useEffect(() => {
-    fetchStudents();
+    if (showStudents) {
+      fetchStudents();
+    }
   }, [showStudents, course.id]);
+
+  const handleDelete = async () => {
+    try {
+      await deleteDoc(doc(firestore, "classes", course.id));
+      if (onDelete) {
+        onDelete(course.id); // Notify parent component about the deletion
+      }
+    } catch (error) {
+      console.error("Error deleting class:", error);
+    }
+  };
 
   const filteredStudents = students.filter((student) =>
     student.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -62,7 +75,10 @@ function ClassCard({ course }) {
           </p>
         </div>
         <div className="flex gap-5">
-          <div className="rounded-full p-2 hover:bg-red-50 cursor-pointer">
+          <div
+            onClick={handleDelete}
+            className="rounded-full p-2 hover:bg-red-50 cursor-pointer"
+          >
             <DeleteIcon className="text-red-900" />
           </div>
           <div className="rounded-full p-2 hover:bg-green-50 cursor-pointer">

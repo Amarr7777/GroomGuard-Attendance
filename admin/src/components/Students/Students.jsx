@@ -66,6 +66,10 @@ function Students({
     fetchClasses();
   };
 
+  const handleDeleteClass = (classId) => {
+    setClasses(classes.filter((course) => course.id !== classId));
+  };
+
   useEffect(() => {
     fetchClasses();
     fetchCourses();
@@ -93,7 +97,7 @@ function Students({
       </div>
       <div className="flex flex-col gap-16 mt-20">
         {classes.map((course) => (
-          <ClassCard key={course.id} course={course} />
+          <ClassCard key={course.id} course={course} onDelete={handleDeleteClass} />
         ))}
       </div>
       <div
