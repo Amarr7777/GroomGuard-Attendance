@@ -1,23 +1,13 @@
 import React from "react";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
+import Close from "@mui/icons-material/Close";
 
-function StudentCard() {
+function StudentCard({student}) {
   return (
-    <div className="flex justify-between bg-white shadow-lg px-5 py-3 rounded-xl items-center">
-      <div>
-        <p className="text-primaryColor font-Outfit font-bold">4MCAB</p>
-      </div>
-      <div>
-        <p className="text-primaryColor font-Outfit font-bold">63</p>
-      </div>
-      <div className="flex gap-5">
-        <div className="rounded-full p-2 hover:bg-red-50 cursor-pointer">
-          <DeleteIcon className="text-red-900" />
-        </div>
-        <div className="rounded-full p-2 hover:bg-green-50 cursor-pointer">
-          <EditIcon className="text-primaryColor" />
-        </div>
+    <div className="flex rounded-xl items-center justify-between shadow-md w-full py-2 px-5">
+      <p className="font-Outfit text-primaryColor">{student.name}</p>
+      <div className="rounded-full p-2 hover:bg-red-50 cursor-pointer">
+        <Close 
+        className="text-red-900" />
       </div>
     </div>
   );
