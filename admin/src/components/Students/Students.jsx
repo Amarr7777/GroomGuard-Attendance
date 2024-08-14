@@ -91,7 +91,7 @@ function Students({
           <input
             type="text"
             className="px-2 outline-none text-gray-500 font-Outfit"
-            placeholder="Search for a course"
+            placeholder="Search for a class"
           />
         </div>
       </div>

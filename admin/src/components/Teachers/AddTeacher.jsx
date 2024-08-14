@@ -105,7 +105,7 @@ function AddTeacher({ handleModal }) {
               required
             />
             <label className="text-sm text-gray-600">Courses</label>
-            <div className="space-y-2 max-h-16 overflow-y-scroll">
+            <div className="space-y-2 max-h-32 overflow-y-scroll">
               {courses.map((course) => (
                 <div key={course.id} className="flex items-center">
                   <input

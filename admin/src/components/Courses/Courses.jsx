@@ -11,6 +11,7 @@ function Courses() {
           <SearchIcon className="text-primaryColor" />
           <input
             type="text"
+            placeholder="Search for a course"
             className="px-2 outline-none text-gray-500 font-Outfit"
           />
         </div>

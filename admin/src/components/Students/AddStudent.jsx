@@ -4,11 +4,10 @@ import Webcam from "react-webcam";
 import { addDoc, collection, getDocs } from "firebase/firestore";
 import { firestore } from "../../firebase/config";
 
-function AddStudent({ SetShowModal }) {
-  const[name,setName] = useState("");
-  const[email,setEmail] = useState("");
-  const[rollNumber,setRollNumber] = useState("");
-  const [selectedClass, setSelectedClass] = useState("");
+function AddStudent({ handleStudentModal, onStudentAdded, course }) {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [rollNumber, setRollNumber] = useState("");
   const [capturedImage, setCapturedImage] = useState(null);
   const [classes, setClasses] = useState([]); // State to store fetched classes
   const webcamRef = useRef(null);
@@ -22,20 +21,21 @@ function AddStudent({ SetShowModal }) {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    SetShowModal(false);
+    handleStudentModal();
     if (capturedImage) {
       console.log("Captured Face Image:", capturedImage);
     }
-    try{
-      await addDoc(collection(firestore,"users"),{
-        classId: selectedClass,
+    try {
+      await addDoc(collection(firestore, "users"), {
+        classId: course.id,
         email,
-        faceId:"avgwdg",
+        faceId: "avgwdg", // Placeholder for face ID
         name,
-        role:"Student",
+        role: "Student",
         rollNumber,
-      })
-    }catch (e) {
+      });
+      onStudentAdded(); // Notify parent component of the new student
+    } catch (e) {
       console.error("Error adding student: ", e);
     }
   };
@@ -62,12 +62,7 @@ function AddStudent({ SetShowModal }) {
       <div className="bg-white p-4 rounded-md shadow-md w-96 mx-auto">
         <div className="flex justify-between">
           <h2 className="text-lg font-bold mb-4 text-primaryColor">Add Student</h2>
-          <div
-            onClick={() => {
-              SetShowModal(false);
-            }}
-            className="cursor-pointer"
-          >
+          <div onClick={handleStudentModal} className="cursor-pointer">
             <CloseIcon className="text-gray-500" />
           </div>
         </div>
@@ -79,7 +74,8 @@ function AddStudent({ SetShowModal }) {
               type="text"
               placeholder="Name"
               className="border border-gray-300 p-2 rounded-md"
-              onChange={(e) => setName(e.target.value)}
+              value={name} // Bind input value to state
+              onChange={(e) => setName(e.target.value)} // Update state on input change
               required
             />
             <label className="text-sm text-gray-600">Email</label>
@@ -87,7 +83,8 @@ function AddStudent({ SetShowModal }) {
               type="email"
               placeholder="Email"
               className="border border-gray-300 p-2 rounded-md"
-              onChange={(e) => setEmail(e.target.value)}
+              value={email} // Bind input value to state
+              onChange={(e) => setEmail(e.target.value)} // Update state on input change
               required
             />
             <label className="text-sm text-gray-600">Roll Number</label>
@@ -95,26 +92,18 @@ function AddStudent({ SetShowModal }) {
               type="text"
               placeholder="Roll Number"
               className="border border-gray-300 p-2 rounded-md"
-              onChange={(e) => setRollNumber(e.target.value)}
+              value={rollNumber} // Bind input value to state
+              onChange={(e) => setRollNumber(e.target.value)} // Update state on input change
               required
             />
             <label className="text-sm text-gray-600">Class</label>
-            <select
-              value={selectedClass}
-              onChange={(e) => setSelectedClass(e.target.value)}
+            <input
+              type="text"
+              placeholder={course.className}
+              disabled
               className="border border-gray-300 p-2 rounded-md"
               required
-            >
-              <option value="" disabled className="text-gray-300 p-2">
-                Select Class
-              </option>
-              {classes.map((classItem) => (
-                <option key={classItem.id} value={classItem.id}>
-                  {classItem.className}
-                </option>
-              ))}
-            </select>
-
+            />
             <label className="text-sm text-gray-600">Capture Face</label>
             {capturedImage ? (
               <img
