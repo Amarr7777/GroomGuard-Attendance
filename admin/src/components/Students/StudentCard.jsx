@@ -1,23 +1,30 @@
 import React from "react";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
+import Close from "@mui/icons-material/Close";
+import { deleteDoc, doc } from "firebase/firestore";
+import { firestore } from "../../firebase/config";
 
-function StudentCard() {
+function StudentCard({student,onDelete}) {  
+
+  const deleteStudent = async()=>{
+    try{
+      await deleteDoc(doc(firestore, "users", student.id)); 
+      onDelete(student.id);
+    }catch(e){
+      console.log(e)
+    }
+  }
+
   return (
-    <div className="flex justify-between bg-white shadow-lg px-5 py-3 rounded-xl items-center">
+    <div className="flex rounded-xl items-center justify-between shadow-md w-full py-2 px-5">
       <div>
-        <p className="text-primaryColor font-Outfit font-bold">4MCAB</p>
+      <p className="font-Outfit text-primaryColor">{student.name}</p>
+      <p className="font-Outfit font-extralight text-primaryColor">{student.rollNumber}</p>
       </div>
-      <div>
-        <p className="text-primaryColor font-Outfit font-bold">63</p>
-      </div>
-      <div className="flex gap-5">
-        <div className="rounded-full p-2 hover:bg-red-50 cursor-pointer">
-          <DeleteIcon className="text-red-900" />
-        </div>
-        <div className="rounded-full p-2 hover:bg-green-50 cursor-pointer">
-          <EditIcon className="text-primaryColor" />
-        </div>
+      <div 
+      onClick={deleteStudent}
+      className="rounded-full p-2 hover:bg-red-50 cursor-pointer">
+        <Close 
+        className="text-red-900" />
       </div>
     </div>
   );

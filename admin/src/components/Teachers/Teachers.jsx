@@ -41,15 +41,15 @@ function Teachers({teacherDataFetched,setTeacherDataFetched,setTeachers,teachers
   };
 
   return (
-    <div className={`min-h-screen w-full ${showModal ? "md:fixed" : null}`}>
+    <div className={`max-h-screen min-h-screen w-full ${showModal ? "md:fixed" : null}`}>
       {showModal && <AddTeacher handleModal={handleModal} />}
-      <div className="flex w-full justify-end p-4 fixed top-0 right-0 z-50">
+      <div className="flex w-full justify-end p-4 fixed top-0 right-0 z-40">
         <div className="px-4 py-2 shadow-lg rounded-3xl bg-white flex items-center">
           <SearchIcon className="text-primaryColor" />
           <input
             type="text"
             className="px-2 outline-none text-gray-500 font-Outfit"
-            placeholder="Search teachers..."
+            placeholder="Search for a teacher"
             onChange={(e) => setSearchTerm(e.target.value)} // Handle search input
           />
         </div>
