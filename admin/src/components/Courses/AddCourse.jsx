@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import CloseIcon from "@mui/icons-material/Close";
-import { collection, getDocs, query, where, addDoc } from "firebase/firestore";
+import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { firestore } from "../../firebase/config";
 
 function AddCourse({ handleCourseModal, onCourseAdded }) {
@@ -10,13 +10,11 @@ function AddCourse({ handleCourseModal, onCourseAdded }) {
   const [selectedClasses, setSelectedClasses] = useState([]);
   const [teachers, setTeachers] = useState([]);
   const [classes, setClasses] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchTeachersAndClasses = async () => {
       try {
-        // Fetch teachers
+        // Query to fetch users with role "Teacher"
         const teacherQuery = query(
           collection(firestore, "users"),
           where("role", "==", "Teacher")
@@ -35,12 +33,8 @@ function AddCourse({ handleCourseModal, onCourseAdded }) {
           ...doc.data(),
         }));
         setClasses(classesList);
-
-        setLoading(false);
       } catch (error) {
         console.error("Error fetching teachers and classes:", error);
-        setError("Failed to load data. Please try again later.");
-        setLoading(false);
       }
     };
 
@@ -49,17 +43,7 @@ function AddCourse({ handleCourseModal, onCourseAdded }) {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-
-    // Validate input
-    if (!courseName || !courseCode) {
-      setError("Course name and course code are required.");
-      return;
-    }
-    if (selectedTeachers.length === 0 || selectedClasses.length === 0) {
-      setError("Please select at least one teacher and one class.");
-      return;
-    }
-
+    handleCourseModal();
     try {
       await addDoc(collection(firestore, "courses"), {
         courseName,
@@ -68,11 +52,10 @@ function AddCourse({ handleCourseModal, onCourseAdded }) {
         classIds: selectedClasses,
       });
       onCourseAdded(); // Notify parent component about the new course
-      handleCourseModal(); // Close the modal after successful submission
     } catch (error) {
       console.error("Error adding course:", error);
-      setError("Failed to add course. Please try again.");
     }
+
   };
 
   const handleTeacherChange = (id) => {
@@ -91,10 +74,6 @@ function AddCourse({ handleCourseModal, onCourseAdded }) {
     );
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <div className="absolute flex justify-center items-center inset-0 bg-transparent backdrop-blur-md w-full z-50">
       <div className="bg-white p-4 rounded-md shadow-md w-96 mx-auto">
@@ -105,7 +84,6 @@ function AddCourse({ handleCourseModal, onCourseAdded }) {
           </div>
         </div>
         <hr />
-        {error && <p className="text-red-500 text-sm">{error}</p>}
         <form className="space-y-4 mt-2" onSubmit={handleFormSubmit}>
           <div className="flex flex-col space-y-2">
             <label className="text-sm text-gray-600">Course Name</label>
@@ -132,33 +110,33 @@ function AddCourse({ handleCourseModal, onCourseAdded }) {
           <div className="flex flex-col space-y-2">
             <label className="text-sm text-gray-600">Select Teacher(s)</label>
             <div className="space-y-2 max-h-32 overflow-y-scroll">
-              {teachers.map((teacher) => (
-                <div key={teacher.id} className="flex items-center space-x-2">
-                  <input
-                    type="checkbox"
-                    value={teacher.id}
-                    onChange={() => handleTeacherChange(teacher.id)}
-                    checked={selectedTeachers.includes(teacher.id)}
-                  />
-                  <span>{teacher.name}</span>
-                </div>
-              ))}
+            {teachers.map((teacher) => (
+              <div key={teacher.id} className="flex items-center space-x-2 max-h-32 overflow-y-scroll">
+                <input
+                  type="checkbox"
+                  value={teacher.id}
+                  onChange={() => handleTeacherChange(teacher.id)}
+                  checked={selectedTeachers.includes(teacher.id)}
+                />
+                <span>{teacher.name}</span>
+              </div>
+            ))}
             </div>
           </div>
           <div className="flex flex-col space-y-2 ">
             <label className="text-sm text-gray-600">Select Classes</label>
             <div className="space-y-2 max-h-32 overflow-y-scroll">
-              {classes.map((classItem) => (
-                <div key={classItem.id} className="flex items-center space-x-2">
-                  <input
-                    type="checkbox"
-                    value={classItem.id}
-                    onChange={() => handleClassChange(classItem.id)}
-                    checked={selectedClasses.includes(classItem.id)}
-                  />
-                  <span>{classItem.className}</span>
-                </div>
-              ))}
+            {classes.map((classItem) => (
+              <div key={classItem.id} className="flex items-center space-x-2 ">
+                <input
+                  type="checkbox"
+                  value={classItem.id}
+                  onChange={() => handleClassChange(classItem.id)}
+                  checked={selectedClasses.includes(classItem.id)}
+                />
+                <span>{classItem.className}</span>
+              </div>
+            ))}
             </div>
           </div>
           <button

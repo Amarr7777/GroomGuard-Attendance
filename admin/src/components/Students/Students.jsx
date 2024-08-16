@@ -76,7 +76,7 @@ function Students({
   }, []);
 
   return (
-    <div className={`min-h-screen w-full ${showModal ? "md:fixed" : null}`}>
+    <div className={`max-h-screen min-h-screen w-full ${showModal ? "md:fixed" : null}`}>
       {showModal ? (
         <AddClass
           handleCourseSelection={handleCourseSelection}

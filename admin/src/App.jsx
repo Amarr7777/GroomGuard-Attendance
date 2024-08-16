@@ -10,9 +10,11 @@ function App() {
   const [teacherDataFetched, setTeacherDataFetched] = useState(false);
   const [courseDataFetched, setCourseDataFetched] = useState(false);
   const [classesDataFetched, setClassesDataFetched] = useState(false);
+  const [ccourseDataFetched, setCCourseDataFetched] = useState(false);
   const [teachers, setTeachers] = useState([]);
   const [courses, setCourses] = useState([]);
   const [classes, setClasses] = useState([]);
+  const [ccourses, setCCourses] = useState([]);
 
   const renderScreen = () => {
     switch (renderScreenVal) {
@@ -30,7 +32,14 @@ function App() {
           />
         );
       case 1:
-        return <Courses />;
+        return (
+          <Courses
+            ccourseDataFetched={ccourseDataFetched}
+            setCCourseDataFetched={setCCourseDataFetched}
+            ccourses={ccourses}
+            setCCourses={setCCourses}
+          />
+        );
       case 2:
         return (
           <Teachers

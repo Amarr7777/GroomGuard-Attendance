@@ -41,7 +41,7 @@ function Teachers({teacherDataFetched,setTeacherDataFetched,setTeachers,teachers
   };
 
   return (
-    <div className={`min-h-screen w-full ${showModal ? "md:fixed" : null}`}>
+    <div className={`max-h-screen min-h-screen w-full ${showModal ? "md:fixed" : null}`}>
       {showModal && <AddTeacher handleModal={handleModal} />}
       <div className="flex w-full justify-end p-4 fixed top-0 right-0 z-40">
         <div className="px-4 py-2 shadow-lg rounded-3xl bg-white flex items-center">
