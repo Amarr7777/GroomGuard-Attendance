@@ -1,6 +1,6 @@
-# Smart Attendance System
+# GroomGuard Attendance
 
-The Smart Attendance System is a revolutionary mobile application designed to streamline the attendance procedure in educational institutions by addressing common issues such as proxy attendance, time wastage, and grooming code enforcement. Utilizing facial biometric recognition technology, this app ensures accurate and efficient attendance recording, eliminating the possibility of students marking attendance for absent friends. Additionally, it enforces grooming standards to promote professionalism and discipline among students.
+The GroomGuard Attendance is a revolutionary mobile application designed to streamline the attendance procedure in educational institutions by addressing common issues such as proxy attendance, time wastage, and grooming code enforcement. Utilizing facial biometric recognition technology, this app ensures accurate and efficient attendance recording, eliminating the possibility of students marking attendance for absent friends. Additionally, it enforces grooming standards to promote professionalism and discipline among students.
 
 ## Features
 
