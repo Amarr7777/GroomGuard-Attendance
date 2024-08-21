@@ -9,7 +9,9 @@ function AddStudent({ handleStudentModal, onStudentAdded, course }) {
   const [email, setEmail] = useState("");
   const [rollNumber, setRollNumber] = useState("");
   const [capturedImage, setCapturedImage] = useState(null);
-  const [classes, setClasses] = useState([]); // State to store fetched classes
+  const [classes, setClasses] = useState([]); 
+  const [selectedCourses, setSelectedCourses] = useState([]); // New state for selected courses
+  const [availableCourses, setAvailableCourses] = useState([]); // State for available courses
   const webcamRef = useRef(null);
   const [showCamera, setShowCamera] = useState(false);
 
@@ -33,6 +35,7 @@ function AddStudent({ handleStudentModal, onStudentAdded, course }) {
         name,
         role: "Student",
         rollNumber,
+        courseIds: selectedCourses, // Include selected courses
       });
       onStudentAdded(); // Notify parent component of the new student
     } catch (e) {
@@ -41,7 +44,7 @@ function AddStudent({ handleStudentModal, onStudentAdded, course }) {
   };
 
   useEffect(() => {
-    const fetchClasses = async () => {
+    const fetchClassesAndCourses = async () => {
       try {
         const classCollection = await getDocs(collection(firestore, "classes"));
         const classList = classCollection.docs.map((doc) => ({
@@ -49,13 +52,28 @@ function AddStudent({ handleStudentModal, onStudentAdded, course }) {
           ...doc.data(),
         }));
         setClasses(classList);
+
+        const courseCollection = await getDocs(collection(firestore, "courses"));
+        const courseList = courseCollection.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setAvailableCourses(courseList); // Set available courses
       } catch (error) {
-        console.error("Error fetching classes:", error);
+        console.error("Error fetching data:", error);
       }
     };
 
-    fetchClasses();
+    fetchClassesAndCourses();
   }, []);
+
+  const handleCourseChange = (courseId) => {
+    setSelectedCourses((prevSelectedCourses) =>
+      prevSelectedCourses.includes(courseId)
+        ? prevSelectedCourses.filter((id) => id !== courseId)
+        : [...prevSelectedCourses, courseId]
+    );
+  };
 
   return (
     <div className="absolute flex justify-center items-center inset-0 bg-transparent backdrop-blur-md w-full z-50">
@@ -74,8 +92,8 @@ function AddStudent({ handleStudentModal, onStudentAdded, course }) {
               type="text"
               placeholder="Name"
               className="border border-gray-300 p-2 rounded-md"
-              value={name} // Bind input value to state
-              onChange={(e) => setName(e.target.value)} // Update state on input change
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               required
             />
             <label className="text-sm text-gray-600">Email</label>
@@ -83,8 +101,8 @@ function AddStudent({ handleStudentModal, onStudentAdded, course }) {
               type="email"
               placeholder="Email"
               className="border border-gray-300 p-2 rounded-md"
-              value={email} // Bind input value to state
-              onChange={(e) => setEmail(e.target.value)} // Update state on input change
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
             />
             <label className="text-sm text-gray-600">Roll Number</label>
@@ -92,8 +110,8 @@ function AddStudent({ handleStudentModal, onStudentAdded, course }) {
               type="text"
               placeholder="Roll Number"
               className="border border-gray-300 p-2 rounded-md"
-              value={rollNumber} // Bind input value to state
-              onChange={(e) => setRollNumber(e.target.value)} // Update state on input change
+              value={rollNumber}
+              onChange={(e) => setRollNumber(e.target.value)}
               required
             />
             <label className="text-sm text-gray-600">Class</label>
@@ -104,6 +122,23 @@ function AddStudent({ handleStudentModal, onStudentAdded, course }) {
               className="border border-gray-300 p-2 rounded-md"
               required
             />
+            <label className="text-sm text-gray-600">Select Courses</label>
+            <div className="space-y-2">
+              {availableCourses.map((course) => (
+                <div key={course.id} className="flex items-center">
+                  <input
+                    type="checkbox"
+                    id={course.id}
+                    value={course.id}
+                    onChange={() => handleCourseChange(course.id)}
+                    checked={selectedCourses.includes(course.id)}
+                  />
+                  <label htmlFor={course.id} className="ml-2">
+                    {course.courseName}
+                  </label>
+                </div>
+              ))}
+            </div>
             <label className="text-sm text-gray-600">Capture Face</label>
             {capturedImage ? (
               <img

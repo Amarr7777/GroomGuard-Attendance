@@ -6,13 +6,19 @@ import AddCourse from "./AddCourse";
 import { collection, getDocs } from "firebase/firestore";
 import { firestore } from "../../firebase/config";
 
-function Courses({ ccourseDataFetched, setCCourseDataFetched, setCCourses, ccourses }) {
+function Courses({
+  ccourseDataFetched,
+  setCCourseDataFetched,
+  setCCourses,
+  ccourses,
+}) {
   const [showCourseModal, setCourseShowModal] = useState(false);
   const [error, setError] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
 
   const fetchCourses = async () => {
-    try {// Ensure the loading state is set to true before fetching data
+    try {
+      // Ensure the loading state is set to true before fetching data
       const coursesSnapshot = await getDocs(collection(firestore, "courses"));
       const coursesList = coursesSnapshot.docs.map((doc) => ({
         id: doc.id,
@@ -27,8 +33,8 @@ function Courses({ ccourseDataFetched, setCCourseDataFetched, setCCourses, ccour
   };
 
   useEffect(() => {
-    console.log("course data",ccourseDataFetched)
-    if(!ccourseDataFetched){
+    console.log("course data", ccourseDataFetched);
+    if (!ccourseDataFetched) {
       fetchCourses();
     }
   }, []);
@@ -50,7 +56,11 @@ function Courses({ ccourseDataFetched, setCCourseDataFetched, setCCourses, ccour
   }
 
   return (
-    <div className={`max-h-screen min-h-screen w-full ${showCourseModal ? "md:fixed" : ""}`}>
+    <div
+      className={`max-h-screen min-h-screen w-full ${
+        showCourseModal ? "md:fixed" : ""
+      }`}
+    >
       {showCourseModal && (
         <AddCourse
           handleCourseModal={handleCourseModal}
