@@ -43,7 +43,7 @@ function ClassCard({ course, onDelete }) {
   };
 
   useEffect(() => {
-      fetchStudents();
+    fetchStudents();
   }, [showStudents, course.id]);
 
   const handleDelete = async () => {
@@ -64,21 +64,24 @@ function ClassCard({ course, onDelete }) {
     }
   };
 
-  const handleStudentChanges = ()=>{
+  const handleStudentChanges = () => {
     fetchStudents();
-  }
+  };
 
-  const filteredStudents = students.filter((student) =>
-    student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||  student.rollNumber.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredStudents = students.filter(
+    (student) =>
+      student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      student.rollNumber.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
     <div>
       {showAddStudentsModal && (
-        <AddStudent 
-        course = {course}
-        onStudentAdded={handleStudentChanges}
-        handleStudentModal={handleStudentModal} />
+        <AddStudent
+          course={course}
+          onStudentAdded={handleStudentChanges}
+          handleStudentModal={handleStudentModal}
+        />
       )}
       <div
         className={`flex justify-between bg-white shadow-lg px-5 py-3 ${
@@ -87,7 +90,7 @@ function ClassCard({ course, onDelete }) {
       >
         <div>
           <p className="text-primaryColor font-Outfit font-bold">
-            {course.className}
+            {course.className.toUpperCase()}
           </p>
         </div>
         <div>
@@ -98,20 +101,30 @@ function ClassCard({ course, onDelete }) {
         <div className="flex gap-5">
           <div
             onClick={handleDelete}
-            className="rounded-full p-2 hover:bg-red-50 cursor-pointer"
+            className="group rounded-full p-2 hover:bg-red-50 cursor-pointer"
           >
             <DeleteIcon className="text-red-900" />
+            <span className="invisible group-hover:visible absolute bg-red-900 text-white px-2 py-2 rounded-md text-xs mt-8">
+              Delete Class
+            </span>
           </div>
-          <div className="rounded-full p-2 hover:bg-green-50 cursor-pointer">
+
+          <div className="group rounded-full p-2 hover:bg-green-50 cursor-pointer">
             <EditIcon className="text-primaryColor" />
+            <span className="invisible group-hover:visible absolute bg-primaryColor text-white px-2 py-2 rounded-md text-xs mt-8">
+              Edit Class
+            </span>
           </div>
           <div
-            className="rounded-full p-2 hover:bg-green-50 cursor-pointer"
+            className="group rounded-full p-2 hover:bg-green-50 cursor-pointer"
             onClick={() => {
               setShowStudents(!showStudents);
             }}
           >
             <ArrowDropDownIcon className="text-primaryColor" />
+            <span className="invisible group-hover:visible absolute bg-primaryColor text-white px-2 py-2 rounded-md text-xs mt-8 -translate-x-20 w-max">
+              show student list
+            </span>
           </div>
         </div>
       </div>
@@ -135,16 +148,23 @@ function ClassCard({ course, onDelete }) {
                 </div>
                 <div
                   onClick={handleStudentModal}
-                  className="bg-green-50 rounded-full p-2 hover:scale-110 hover:text-white"
+                  className="group bg-green-50 rounded-full p-2 hover:scale-110 hover:text-white cursor-pointer"
                 >
-                  <AddIcon className="text-primaryColor " />
+                  <AddIcon className="text-primaryColor" />
+                  <span className="invisible group-hover:visible absolute bg-primaryColor text-white px-2 py-1 rounded-md text-xs -translate-x-3/4 -top-2  w-max">
+                    Add student
+                  </span>
                 </div>
               </div>
             </div>
             <hr className="w-full pb-1" />
           </div>
           {filteredStudents.map((student) => (
-            <StudentCard key={student.id} student={student} onDelete={handleStudentChanges}/>
+            <StudentCard
+              key={student.id}
+              student={student}
+              onDelete={handleStudentChanges}
+            />
           ))}
         </div>
       )}

@@ -3,7 +3,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { collection, getDocs, query, where, addDoc } from "firebase/firestore";
 import { firestore } from "../../firebase/config";
 
-function AddClass({ handleCourseModal, onCourseAdded }) {
+function AddClass({ handleClassModal, onCourseAdded }) {
   const [className, setClassName] = useState("");
   const [courses, setCourses] = useState([]); // To store the list of courses fetched from the DB
   const [selectedCourses, setSelectedCourses] = useState([]); // To store the selected courses
@@ -37,7 +37,7 @@ function AddClass({ handleCourseModal, onCourseAdded }) {
         courseIds: selectedCourses, // Store selected course IDs in Firestore
       });
       onCourseAdded(); // Notify parent component about the new class
-      handleCourseModal(); // Close the modal after successful submission
+      handleClassModal(); // Close the modal after successful submission
     } catch (error) {
       console.error("Error adding class:", error);
       setError("Failed to add class. Please try again.");
@@ -58,7 +58,7 @@ function AddClass({ handleCourseModal, onCourseAdded }) {
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-bold text-primaryColor">Add Class</h2>
           <div
-            onClick={handleCourseModal}
+            onClick={handleClassModal}
             className="cursor-pointer z-50"
           >
             <CloseIcon className="text-gray-500" />
@@ -89,7 +89,7 @@ function AddClass({ handleCourseModal, onCourseAdded }) {
                     onChange={() => handleCourseChange(course.id)}
                     checked={selectedCourses.includes(course.id)}
                   />
-                  <span>{course.courseName}</span>
+                  <span>{course.courseName.toUpperCase()}</span>
                 </div>
               ))}
             </div>
