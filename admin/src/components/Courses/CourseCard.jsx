@@ -12,14 +12,14 @@ import { firestore } from "../../firebase/config";
 
 function CourseCard({ course }) {
   const [teacherName, setTeacherName] = useState("");
-  const [studentCount, setStudentCount] = useState(0);
+  const [student, setStudent] = useState([]);
 
   const fetchStudentCount = async () => {
     try {
       const studentsQuery = query(
         collection(firestore, "users"),
         where("role", "==", "Student"),
-        where("classIds", "in", course.classIds) // Fetch students in any of the classIds
+        where("courseIds", "array-contains", course.id) // Fetch students in any of the classIds
       );
 
       const studentSnapshot = await getDocs(studentsQuery);
@@ -28,10 +28,10 @@ function CourseCard({ course }) {
         ...doc.data(),
       }));
 
-      setStudentCount(studentList.length);
+      setStudent(studentList);
     } catch (error) {
       console.error("Error fetching students:", error);
-      setStudentCount(0); // Default to 0 if there's an error
+      setStudent([]); // Default to 0 if there's an error
     }
   };
 
@@ -55,9 +55,6 @@ function CourseCard({ course }) {
   };
 
   useEffect(() => {
-    console.log("====================================");
-    console.log(course);
-    console.log("====================================");
     fetchStudentCount();
     fetchTeacherName();
   }, []);
@@ -66,16 +63,16 @@ function CourseCard({ course }) {
     <div className="w-64 md:w-96 h-56 bg-white shadow-lg rounded-xl hover:shadow-2xl">
       <div className="w-64 md:w-96 h-24 bg-primaryColor rounded-t-xl flex justify-center items-center">
         <p className="font-Outfit font-bold text-white text-xl">
-          {course.courseName}
+          {course.courseName.toUpperCase()}
         </p>
       </div>
       <div className="flex justify-between p-5">
         <div className="flex flex-col">
           <p className="font-Outfit text-lg">{teacherName}</p>
-          <p className="font-Outfit font-thin">{course.courseCode}</p>
+          <p className="font-Outfit font-thin">{course.courseCode.toUpperCase()}</p>
         </div>
         <div className="flex flex-col justify-center items-center">
-          <p className="font-Outfit text-lg">{studentCount}</p>
+          <p className="font-Outfit text-lg">{student.length}</p>
           <UserIcon className="text-primaryColor ml-2" />
         </div>
       </div>
