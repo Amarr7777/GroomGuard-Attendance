@@ -134,7 +134,7 @@ function AddStudent({ handleStudentModal, onStudentAdded, course }) {
                     checked={selectedCourses.includes(course.id)}
                   />
                   <label htmlFor={course.id} className="ml-2">
-                    {course.courseName}
+                    {course.courseName.toUpperCase()}
                   </label>
                 </div>
               ))}
