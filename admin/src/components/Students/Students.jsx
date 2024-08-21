@@ -16,7 +16,7 @@ function Students({
   setClasses,
   classes,
 }) {
-  const [showModal, SetShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [selectedCourses, setSelectedCourses] = useState([]);
 
   const fetchCourses = async () => {
@@ -62,9 +62,12 @@ function Students({
   };
 
   const handleClassModal = () => {
-    SetShowModal(!showModal);
-    fetchClasses();
+    setShowModal(!showModal);
   };
+  
+  const handleCourseAdd = () => {
+    fetchClasses();
+  }
 
   const handleDeleteClass = (classId) => {
     setClasses(classes.filter((course) => course.id !== classId));
@@ -83,6 +86,7 @@ function Students({
           selectedCourses={selectedCourses}
           courses={courses}
           handleClassModal={handleClassModal}
+          onCourseAdded={handleCourseAdd}
         />
       ) : null}
       <div className="flex w-full justify-end p-4 fixed top-0 right-0 z-20 ">
@@ -103,7 +107,7 @@ function Students({
       <div
         className="flex justify-center items-center fixed bottom-5 right-5 w-16 h-16 bg-primaryColor rounded-full shadow-lg hover:scale-105 cursor-pointer"
         onClick={() => {
-          SetShowModal(!showModal);
+          setShowModal(!showModal);
         }}
       >
         <AddIcon className="text-white scale-105" />

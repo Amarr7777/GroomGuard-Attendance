@@ -15,6 +15,7 @@ function App() {
   const [courses, setCourses] = useState([]);
   const [classes, setClasses] = useState([]);
   const [ccourses, setCCourses] = useState([]);
+  
 
   const renderScreen = () => {
     switch (renderScreenVal) {
@@ -37,7 +38,7 @@ function App() {
             ccourseDataFetched={ccourseDataFetched}
             setCCourseDataFetched={setCCourseDataFetched}
             ccourses={ccourses}
-            setCCourses={setCCourses}
+            setCCourses={setCCourses}            
           />
         );
       case 2:

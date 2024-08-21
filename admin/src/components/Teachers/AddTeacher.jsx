@@ -45,7 +45,7 @@ function AddTeacher({ handleModal }) {
     e.preventDefault();
     try {
       await addDoc(collection(firestore, "users"), {
-        courses: selectedCourses,
+        courseIds: selectedCourses,
         email,
         faceId: "kjahjd", 
         name,
@@ -59,13 +59,13 @@ function AddTeacher({ handleModal }) {
     }
   };
 
-  const handleCourseSelection = (courseId) => {
-    setSelectedCourses((prevSelectedCourses) =>
-      prevSelectedCourses.includes(courseId)
-        ? prevSelectedCourses.filter((id) => id !== courseId)
-        : [...prevSelectedCourses, courseId]
-    );
-  };
+  // const handleCourseSelection = (courseId) => {
+  //   setSelectedCourses((prevSelectedCourses) =>
+  //     prevSelectedCourses.includes(courseId)
+  //       ? prevSelectedCourses.filter((id) => id !== courseId)
+  //       : [...prevSelectedCourses, courseId]
+  //   );
+  // };
 
   return (
     <div className="absolute flex justify-center items-center inset-0 bg-transparent backdrop-blur-md w-full z-50">
@@ -104,7 +104,7 @@ function AddTeacher({ handleModal }) {
               onChange={(e) => setEmail(e.target.value)} // Updated event handler
               required
             />
-            <label className="text-sm text-gray-600">Courses</label>
+            {/* <label className="text-sm text-gray-600">Courses</label>
             <div className="space-y-2 max-h-32 overflow-y-scroll">
               {courses.map((course) => (
                 <div key={course.id} className="flex items-center">
@@ -121,7 +121,7 @@ function AddTeacher({ handleModal }) {
                   </label>
                 </div>
               ))}
-            </div>
+            </div> */}
             <label className="text-sm text-gray-600">Security Pin</label>
             <input
               type="number"
