@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:frontend/home/CourseCard.dart';
 import 'dart:convert';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:camera/camera.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:frontend/home/CourseCard.dart';
 
 class HomeScreen extends StatefulWidget {
   final List<CameraDescription> cameras;
@@ -17,32 +19,54 @@ class _HomeScreenState extends State<HomeScreen> {
   List<dynamic> courses = [];
   List<dynamic> filteredCourses = [];
   TextEditingController searchController = TextEditingController();
+  String userName = '';
+  List<String> courseIds = [];
 
   @override
   void initState() {
     super.initState();
-    loadCourses();
+    _loadUserData();
     searchController.addListener(() {
       filterCourses();
     });
   }
 
-  Future<void> loadCourses() async {
-    final String response =
-        await rootBundle.loadString('lib/constants/courses.json');
-    final data = await json.decode(response);
+  Future<void> _loadUserData() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      courses = data['courses'];
-      filteredCourses = courses;
+      userName = prefs.getString('userName') ?? 'Guest';
+      courseIds = prefs.getStringList('courseIds') ?? [];
     });
+    _fetchCourses();
+  }
+
+  Future<void> _fetchCourses() async {
+    if (courseIds.isNotEmpty) {
+      final firestore = FirebaseFirestore.instance;
+      List<DocumentSnapshot> courseSnapshots = [];
+
+      for (String courseId in courseIds) {
+        final courseDoc = await firestore.collection('courses').doc(courseId).get();
+        if (courseDoc.exists) {
+          courseSnapshots.add(courseDoc);
+        } else {
+          print('No such document for ID: $courseId');
+        }
+      }
+
+      setState(() {
+        courses = courseSnapshots.map((doc) => doc.data()).toList();
+        filteredCourses = courses;
+      });
+    }
   }
 
   void filterCourses() {
     String query = searchController.text.toLowerCase();
     setState(() {
       filteredCourses = courses.where((course) {
-        return course['name'].toString().toLowerCase().contains(query) ||
-            course['code'].toString().toLowerCase().contains(query);
+        return course['courseName'].toString().toLowerCase().contains(query) ||
+            course['courseCode'].toString().toLowerCase().contains(query);
       }).toList();
     });
   }
@@ -67,9 +91,12 @@ class _HomeScreenState extends State<HomeScreen> {
               : ListView.builder(
                   itemCount: filteredCourses.length,
                   itemBuilder: (context, index) {
+                    final courseId = courseIds[index]; // Get the course ID
                     return CourseCard(
-                        course: filteredCourses[index],
-                        cameras: widget.cameras);
+                      course: filteredCourses[index],
+                      cameras: widget.cameras,
+                      courseId: courseId, // Pass the course ID
+                    );
                   },
                 ),
         ),
@@ -105,7 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       const SizedBox(width: 10),
                       Text(
-                        "SREEDEVI",
+                        userName,
                         style: GoogleFonts.openSans(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
