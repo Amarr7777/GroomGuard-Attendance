@@ -24,16 +24,21 @@ The GroomGuard Attendance is a revolutionary mobile application designed to stre
 - **Organized and Disciplined Environment**: Leads to a more organized educational environment.
 
 ## Screenshots
-- **Teacher Login**
-![Teacher Login](./screenshots/user_login.png)
-- **Class Selection**
-![Class Selection](./screenshots/user_home.png)
-- **Student List**
-![Student List](./screenshots/user_studentList.png)
-- **Scanning Screen**
-![Scanning Screen](./screenshots/userScanning.png)
-- **Attendance Report**
-![Attendance Report](./screenshots/userSummary.png)
+- **Teacher Login**  
+  <img src="./screenshots/user_login.png" alt="Teacher Login" width="300px">
+
+- **Class Selection**  
+  <img src="./screenshots/user_home.png" alt="Class Selection" width="300px">
+
+- **Student List**  
+  <img src="./screenshots/user_studentList.png" alt="Student List" width="300px">
+
+- **Scanning Screen**  
+  <img src="./screenshots/userScanning.png" alt="Scanning Screen" width="300px">
+
+- **Attendance Report**  
+  <img src="./screenshots/userSummary.png" alt="Attendance Report" width="300px">
+
 
 ## Contributors
 
