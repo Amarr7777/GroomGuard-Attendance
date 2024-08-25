@@ -104,7 +104,7 @@ class SummaryScreen extends StatelessWidget {
                       ),
                       const SizedBox(width: 10),
                       Text(
-                        "SREEDEVI",
+                        "DEEPA",
                         style: GoogleFonts.openSans(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -121,7 +121,7 @@ class SummaryScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        "Microservices",
+                        "AI/ML",
                         style: GoogleFonts.outfit(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
