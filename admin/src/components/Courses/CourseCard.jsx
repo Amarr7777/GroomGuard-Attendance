@@ -60,20 +60,31 @@ function CourseCard({ course }) {
   }, []);
 
   return (
-    <div className="w-64 md:w-96 h-56 bg-white shadow-lg rounded-xl hover:shadow-2xl">
-      <div className="w-64 md:w-96 h-24 bg-primaryColor rounded-t-xl flex justify-center items-center">
-        <p className="font-Outfit font-bold text-white text-xl">
+    <div className="w-72 md:w-80 h-28 bg-gray-50 shadow-lg rounded-[45px] flex justify-between bg-bgImg bg-local ">
+      <div className="w-3/5 h-28 bg-primaryColor shadow-lg rounded-[45px] p-5 bg-bgImg bg-local">
+        <p className="font-Outfit font-bold text-white text-sm ">
           {course.courseName.toUpperCase()}
         </p>
+        <p className="font-Outfit text-sm font-extralight text-white">
+          {teacherName}
+        </p>
+        <p className="font-Outfit font-thin text-sm text-white">
+          {course.courseCode.toUpperCase()}
+        </p>
       </div>
-      <div className="flex justify-between p-5">
-        <div className="flex flex-col">
-          <p className="font-Outfit text-lg">{teacherName}</p>
-          <p className="font-Outfit font-thin">{course.courseCode.toUpperCase()}</p>
-        </div>
-        <div className="flex flex-col justify-center items-center">
-          <p className="font-Outfit text-lg">{student.length}</p>
-          <UserIcon className="text-primaryColor ml-2" />
+      <div className="flex relative">
+        <div className="flex justify-start items-start">
+          <div className="w-20 h-20 bg-primaryColor bg-opacity-40 rounded-full ">
+            <div className="flex absolute top-6 right-10 justify-center items-center">
+              <div className="w-16 h-16 bg-primaryColor bg-opacity-20 rounded-full flex justify-center items-center">
+                <div className="w-10 h-10 bg-primaryColor rounded-full flex justify-center items-center">
+                  <p className="font-Outfit text-lg text-white">
+                    {student.length}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

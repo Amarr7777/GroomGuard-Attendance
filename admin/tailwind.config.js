@@ -10,6 +10,9 @@ export default {
       fontFamily:{
         Outfit : 'Outfit'
       },
+      backgroundImage:{
+        'bgImg': 'url(./src/assets/bgTrans.png)'
+      }
     },
   },
   plugins: [
