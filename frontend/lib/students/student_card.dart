@@ -50,14 +50,14 @@ class StudentCard extends StatelessWidget {
                   ),
                 ],
               ),
-              Text(
-                student['attendancePercentage'].toString(),
-                style: GoogleFonts.outfit(
-                    fontWeight: FontWeight.bold,
-                    color: student['attendancePercentage'] < 85
-                        ? Colors.red
-                        : Theme.of(context).primaryColor),
-              ),
+              // Text(
+              //   student['attendancePercentage'].toString(),
+              //   style: GoogleFonts.outfit(
+              //       fontWeight: FontWeight.bold,
+              //       color: student['attendancePercentage'] < 85
+              //           ? Colors.red
+              //           : Theme.of(context).primaryColor),
+              // ),
             ],
           ),
         ),

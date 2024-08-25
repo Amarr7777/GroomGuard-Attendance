@@ -1,11 +1,56 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:frontend/home/HomeScreen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   final List<CameraDescription> cameras;
   const LoginScreen({super.key, required this.cameras});
+
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController _pinController = TextEditingController();
+
+  Future<void> _login() async {
+    final String enteredPin = _pinController.text;
+
+    // Fetch user data from Firestore
+    final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .where('role', isEqualTo: 'Teacher')
+        .where('pin', isEqualTo: int.parse(enteredPin))
+        .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      final DocumentSnapshot userDoc = querySnapshot.docs.first;
+      final userData = userDoc.data() as Map<String, dynamic>;
+
+      // Save user data and course IDs in local storage
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString('userEmail', userData['email']);
+      await prefs.setString('userName', userData['name']);
+      await prefs.setInt('userPin', userData['pin']);
+      await prefs.setStringList('courseIds', List<String>.from(userData['courseIds']));
+
+      // Navigate to the HomeScreen
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomeScreen(cameras: widget.cameras),
+        ),
+      );
+    } else {
+      // Handle login failure (e.g., show an error message)
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Invalid PIN')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +90,7 @@ class LoginScreen extends StatelessWidget {
                           width: 300,
                           height: 50,
                           child: TextFormField(
+                            controller: _pinController,
                             decoration: InputDecoration(
                               filled: true,
                               fillColor: Colors.white,
@@ -81,14 +127,7 @@ class LoginScreen extends StatelessWidget {
                           width: 200,
                           height: 50,
                           child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => HomeScreen(cameras: cameras),
-                                ),
-                              );
-                            },
+                            onPressed: _login,
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Theme.of(context).primaryColor),
                             child: Text(

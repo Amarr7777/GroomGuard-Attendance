@@ -42,6 +42,7 @@ dependencies:
   flutter_launcher_icons: ^0.13.1
   flutter_native_splash: ^2.4.1
   firebase_core: ^3.3.0
+  shared_preferences: ^2.3.2
 
 flutter_launcher_icons:
   android: "launcher_icon"
@@ -80,7 +81,6 @@ flutter:
     - lib/assets/student_bg.png
     - lib/assets/loginBG.png
     - lib/assets/HomeAppBarBg.png
-
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

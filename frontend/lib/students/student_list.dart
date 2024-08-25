@@ -28,6 +28,7 @@ class _StudentListState extends State<StudentList> {
   void initState() {
     super.initState();
     filteredStudents = widget.students;
+    print(filteredStudents);
     searchController.addListener(filterStudents);
   }
 
@@ -43,7 +44,7 @@ class _StudentListState extends State<StudentList> {
     setState(() {
       filteredStudents = widget.students.where((student) {
         return student['name'].toString().toLowerCase().contains(query) ||
-            student['code'].toString().toLowerCase().contains(query);
+            student['rollNumber'].toString().toLowerCase().contains(query);
       }).toList();
     });
   }
@@ -83,7 +84,10 @@ class _StudentListState extends State<StudentList> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ScanScreen(cameras: widget.cameras,courseName:widget.courseName),
+                    builder: (context) => ScanScreen(
+                      cameras: widget.cameras,
+                      courseName: widget.courseName,
+                    ),
                   ),
                 );
               },
@@ -132,7 +136,7 @@ class _StudentListState extends State<StudentList> {
                       ),
                       const SizedBox(width: 10),
                       Text(
-                        widget.courseName,
+                        widget.courseName.toUpperCase(),
                         style: GoogleFonts.openSans(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
