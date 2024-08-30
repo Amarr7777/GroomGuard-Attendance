@@ -9,9 +9,8 @@ function AddStudent({ handleStudentModal, onStudentAdded, course }) {
   const [email, setEmail] = useState("");
   const [rollNumber, setRollNumber] = useState("");
   const [capturedImage, setCapturedImage] = useState(null);
-  const [classes, setClasses] = useState([]); 
-  const [selectedCourses, setSelectedCourses] = useState([]); // New state for selected courses
-  const [availableCourses, setAvailableCourses] = useState([]); // State for available courses
+  const [selectedCourses, setSelectedCourses] = useState([]);
+  const [availableCourses, setAvailableCourses] = useState([]);
   const webcamRef = useRef(null);
   const [showCamera, setShowCamera] = useState(false);
 
@@ -24,22 +23,52 @@ function AddStudent({ handleStudentModal, onStudentAdded, course }) {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     handleStudentModal();
-    if (capturedImage) {
-      console.log("Captured Face Image:", capturedImage);
+
+    if (!capturedImage) {
+        console.error("No image captured!");
+        return;
     }
+
     try {
-      await addDoc(collection(firestore, "users"), {
-        classId: course.id,
-        email,
-        faceId: "avgwdg", // Placeholder for face ID
-        name,
-        role: "Student",
-        rollNumber,
-        courseIds: selectedCourses, // Include selected courses
-      });
-      onStudentAdded(); // Notify parent component of the new student
+        // Convert base64 image to Blob
+        const response = await fetch(capturedImage);
+        const blob = await response.blob();
+
+        const formData = new FormData();
+        formData.append('capturedImage', blob, 'captured_image.jpg');
+        formData.append('name', name);
+
+        // Send the image to the backend for processing
+        const backendResponse = await fetch('http://127.0.0.1:5000/register-student', {
+            method: 'POST',
+            body: formData,
+        });
+
+        const data = await backendResponse.json();
+        console.log(data);
+
+        if (backendResponse.ok) {
+            const faceId = data.data.features; // Extract faceId from the response
+
+            console.log("Extracted Face ID:", faceId);
+
+            // Now add the student to the Firestore
+            await addDoc(collection(firestore, "users"), {
+                classId: course.id,
+                email,
+                faceId, // Use the extracted faceId
+                name,
+                role: "Student",
+                rollNumber,
+                courseIds: selectedCourses, // Include selected courses
+            });
+
+            onStudentAdded(); // Notify parent component of the new student
+        } else {
+            console.error("Failed to extract faceId:", data.error);
+        }
     } catch (e) {
-      console.error("Error adding student: ", e);
+        console.error("Error adding student: ", e);
     }
   };
 
@@ -58,7 +87,7 @@ function AddStudent({ handleStudentModal, onStudentAdded, course }) {
           id: doc.id,
           ...doc.data(),
         }));
-        setAvailableCourses(courseList); // Set available courses
+        setAvailableCourses(courseList);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
